@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+	sshCommand = ssh -i ~/.ssh/ucaribe_rsa -F /dev/null
+[remote "origin"]
+	url = git@github.com:PFMelendez/inventarioop-api.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[user]
+	name = Pablo Melendez
+	email = 140300081@ucaribe.edu.mx
+
