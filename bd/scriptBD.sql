@@ -40,9 +40,49 @@ CREATE TABLE `inventario_op`.`TipoUsuario` (
   PRIMARY KEY (`idTipoUsuario`),
   UNIQUE INDEX `idTipoUsuario_UNIQUE` (`idTipoUsuario` ASC) VISIBLE)
 COMMENT = 'Tabla para englobar los ipos de usuario';
-
-use Inventario_OP;
 ALTER TABLE objetos ADD FOREIGN KEY(usuario_recibio) REFERENCES TipoUsuario(idTipoUsuario);
 ALTER TABLE objetos ADD FOREIGN KEY(usuario_registro_entrada) REFERENCES TipoUsuario(idTipoUsuario);
 ALTER TABLE objetos ADD FOREIGN KEY(usuario_registro_salida) REFERENCES TipoUsuario(idTipoUsuario);
 ALTER TABLE objetos ADD FOREIGN KEY(usuario_encontro) REFERENCES TipoUsuario(idTipoUsuario);
+
+/*Esta es la segunda parte de las tablas*/
+USE Inventario_OP;
+CREATE TABLE `inventario_op`.`categorias` (
+  `idCategoria` INT NOT NULL AUTO_INCREMENT COMMENT 'Id auto asignada a cada categoria de objetos',
+  `NombreCategoria` VARCHAR(20) NOT NULL COMMENT 'Nombre de tipo de Categoria',
+  `Descripcion` VARCHAR(50) NOT NULL COMMENT 'Campo para escribir una descripcion de la categoria',
+  PRIMARY KEY (`idCategoria`),
+  UNIQUE INDEX `idCategoria_UNIQUE` (`idCategoria` ASC) VISIBLE)
+COMMENT = 'Tabla para englobar los tipos de objetos por categorias';
+
+CREATE TABLE `inventario_op`.`subCategorias` (
+  `idSubCategoria` INT NOT NULL AUTO_INCREMENT COMMENT 'Id auto asignada a cada subcategoria de objetos',
+  `NombreCategoria` VARCHAR(20) NOT NULL COMMENT 'Nombre de tipo de subCategoria',
+  `Descripcion` VARCHAR(50) NOT NULL COMMENT 'Campo para escribir una descripcion de la Subcategoria',
+  `IdCategoria` INT NOT NULL COMMENT 'Llave foranea a la Categoria principal',
+  PRIMARY KEY (`idSubCategoria`),
+  FOREIGN KEY(IdCategoria) REFERENCES categorias(idCategoria),
+  UNIQUE INDEX `idSubCategoria_UNIQUE` (`idSubCategoria` ASC) VISIBLE)
+COMMENT = 'Tabla para englobar los tipos de objetos por Subcategorias';
+
+CREATE TABLE `inventario_op`.`etiquetas` (
+  `idEtiquta` INT NOT NULL AUTO_INCREMENT COMMENT 'Id auto asignada a cada etiqueta',
+  `NombreEtiqueta` VARCHAR(20) NOT NULL COMMENT 'Nombre de la etiqueta',
+  PRIMARY KEY (`idEtiquta`),
+  UNIQUE INDEX `idEtiquta_UNIQUE` (`idEtiquta` ASC) VISIBLE)
+COMMENT = 'Tabla para obtener las etiquetas para busqueda de objetos';
+
+/*show create table objetos;*/
+
+/*Correccion de llaves foraneas de la tabla objetos*/
+USE Inventario_OP;
+ALTER TABLE objetos DROP FOREIGN KEY objetos_ibfk_1;
+ALTER TABLE objetos DROP FOREIGN KEY objetos_ibfk_2;
+ALTER TABLE objetos DROP FOREIGN KEY objetos_ibfk_3;
+ALTER TABLE objetos DROP FOREIGN KEY objetos_ibfk_4;
+
+ALTER TABLE objetos ADD FOREIGN KEY(usuario_recibio) REFERENCES usuarios(idUsuarios);
+ALTER TABLE objetos ADD FOREIGN KEY(usuario_registro_entrada) REFERENCES usuarios(idUsuarios);
+ALTER TABLE objetos ADD FOREIGN KEY(usuario_registro_salida) REFERENCES usuarios(idUsuarios);
+
+
