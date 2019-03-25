@@ -10,6 +10,8 @@ const {
   host,
 } = dbConfig;
 
+const basename = path.basename(__filename);
+
 const db = {};
 
 const sequelize = new Sequelize(database, username, password, { host, dialect: 'mysql' });
