@@ -13,6 +13,7 @@ dotenv.config();
 import config from './config';
 import routes from './routes';
 import swaggerOptions from './config/swagger';
+import db from './models/index';
 /* eslint-enable */
 
 
@@ -53,6 +54,8 @@ if (process.env.NODE_ENV === 'development') {
 app.use('/api', routes);
 
 app.server.listen(config.port);
+
+// console.log(db);
 
 console.log(`Started on 'http://localhost:${app.server.address().port}'`);
 
