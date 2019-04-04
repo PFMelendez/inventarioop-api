@@ -9,7 +9,7 @@ CREATE TABLE `cat_estados` (
   `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
   `eliminado` BIT DEFAULT 0 COMMENT 'La utilidad de activar o desactivar registro', 
   PRIMARY KEY (`id_estado`))
-COMMENT = 'Tabla para definir el estado de un objeto bueno, regular y malo';
+  COMMENT = 'Tabla para definir el estado de un objeto bueno, regular y malo';
 
 INSERT INTO cat_estados (descripcion,usuario_creo) VALUES("Bueno",1);
 INSERT INTO cat_estados (descripcion,usuario_creo) VALUES("Regular",1);
@@ -96,7 +96,7 @@ CREATE TABLE `cat_subcategorias` (
   `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
   `eliminado` BIT DEFAULT 0 COMMENT 'La utilidad de activar o desactivar registro', 
  PRIMARY KEY (`id_sub_categoria`),
-  FOREIGN KEY(id_sub_categoria) REFERENCES cat_categorias(id_categoria))
+ FOREIGN KEY(id_sub_categoria) REFERENCES cat_categorias(id_categoria))
 COMMENT = 'Tabla para englobar los tipos de objetos por Subcategorias';
 
 CREATE TABLE `etiquetas` (
@@ -112,5 +112,6 @@ COMMENT = 'Tabla para obtener las etiquetas para busqueda de objetos';
 /*show create table objetos;*/
 
 /*Correccion de llaves foraneas de la tabla objetos*/
+
 ALTER TABLE objetos ADD FOREIGN KEY(usuario_registro_entrada) REFERENCES usuarios(id_usuarios);
 ALTER TABLE objetos ADD FOREIGN KEY(usuario_registro_salida) REFERENCES usuarios(id_usuarios);

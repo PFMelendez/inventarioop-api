@@ -1,6 +1,11 @@
 import express from 'express';
 // import middlewares from '../middlewares';
 import demo from './demo';
+import categorias from './categorias';
+import objetos from './objetos';
+import subcategorias from './subcategorias';
+import tags from './tags';
+import usuarios from './usuarios';
 
 const { Router } = express;
 const api = Router();
