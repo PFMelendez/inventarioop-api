@@ -1,20 +1,20 @@
 import Sequelize from 'sequelize';
 import fs from 'fs';
 import path from 'path';
-import dbConfig from '../config/sequelize';
+import config from '../config';
 
 const {
   database,
   username,
   password,
   host,
-} = dbConfig;
+} = config;
 
 const basename = path.basename(__filename);
 
 const db = {};
 
-const sequelize = new Sequelize(database, username, password, { host, dialect: 'mysql' });
+const sequelize = new Sequelize(database, username, password, { host, dialect: 'mysql', port: 3306 });
 
 const allFiles = fs.readdirSync(__dirname);
 
@@ -25,6 +25,16 @@ modelFiles.forEach((file) => {
   db[model.name] = model;
 });
 
+console.log(db);
+
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+// sequelize.drop();
+sequelize.sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
