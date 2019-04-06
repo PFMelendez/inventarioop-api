@@ -26,4 +26,10 @@ api.get('/_health', (req, res) => {
 // set routes here
 api.use('/demo', demo);
 
+api.use('/categorias', categorias);
+api.use('/objetos', objetos);
+api.use('/subcategorias', subcategorias);
+api.use('/tags', tags);
+api.use('/usuarios', usuarios);
+
 export default api;

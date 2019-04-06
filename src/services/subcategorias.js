@@ -1,6 +1,6 @@
 import Models from '../models';
+
 export default {
-  create: async params => {
-    return await Models.Subcategoria.create(params);
-  }
-}
+  create: async params => Models.Subcategoria.create(params),
+};
+
