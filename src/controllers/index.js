@@ -11,5 +11,5 @@ export default {
   objetos,
   subcategorias,
   tags,
-  usuarios
+  usuarios,
 };

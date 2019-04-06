@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+/* eslint-disable */
 import http from 'http';
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -5,11 +10,6 @@ import cors from 'cors';
 import morganBody from 'morgan-body';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-/* eslint-disable */
 import config from './config';
 import routes from './routes';
 import swaggerOptions from './config/swagger';
