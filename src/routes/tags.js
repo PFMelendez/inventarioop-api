@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { tags } from '../controllers';
+import controllers from '../controllers';
 
+const { tags } = controllers;
 const api = Router();
 
 api.get('/', tags.hi);

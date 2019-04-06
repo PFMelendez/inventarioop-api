@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { subcategorias } from '../controllers';
+import controllers from '../controllers';
 
+const { subcategorias } = controllers;
 const api = Router();
 
 api.get('/', subcategorias.hi);
