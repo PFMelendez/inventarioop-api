@@ -1,6 +1,7 @@
 import { Router } from 'express';
-import { objetos } from '../controllers';
+import controllers from '../controllers';
 
+const { objetos } = controllers;
 const api = Router();
 
 api.get('/', objetos.hi);

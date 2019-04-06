@@ -26,14 +26,18 @@
   },
   "homepage": "https://github.com/yoniihdc/node-express-es6-airbnb#readme",
   "dependencies": {
+    "async": "^2.6.2",
+    "bcrypt": "^3.0.5",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "dotenv": "^7.0.0",
     "express": "^4.16.2",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "morgan-body": "^2.3.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.1.1",
-    "swagger-jsdoc": "^1.9.7",
+    "swagger-jsdoc": "^3.2.8",
     "swagger-ui-express": "^2.0.15"
   },
   "devDependencies": {

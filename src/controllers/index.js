@@ -1,9 +1,9 @@
-export { default as demo } from './demo';
-export { default as categorias } from './categorias';
-export { default as objetos } from './objetos';
-export { default as subcategorias } from './subcategorias';
-export { default as tags } from './tags';
-export { default as usuarios } from './usuarios';
+import demo from './demo';
+import categorias from './categorias';
+import objetos from './objetos';
+import subcategorias from './subcategorias';
+import tags from './tags';
+import usuarios from './usuarios';
 
 export default {
   demo,
@@ -11,5 +11,5 @@ export default {
   objetos,
   subcategorias,
   tags,
-  usuarios
+  usuarios,
 };
