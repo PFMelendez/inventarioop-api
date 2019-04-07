@@ -8,7 +8,7 @@ api.get('/', usuarios.hi);
 
 api.post('/', usuarios.create);
 
-api.post('/session', usuarios.hi);
+api.post('/login', usuarios.login);
 
 api.get('/:id', usuarios.hi);
 
