@@ -6,13 +6,9 @@ const api = Router();
 
 api.get('/', objetos.hi);
 
-api.get('/abandoned', objetos.hi);
+api.post('/', objetos.create);
 
-api.post('/', objetos.hi);
-
-api.get('/:id', objetos.hi);
-
-api.get('/:id/tags', objetos.hi);
+api.get('/:id', objetos.get);
 
 api.put('/:id', objetos.hi);
 

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  class Etiqueta extends sequelize.Sequelize.Model { }
+  class Etiqueta extends sequelize.Sequelize.Model {}
   Etiqueta.init({
     id_etiqueta: {
       autoIncrement: true,
@@ -48,7 +48,11 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Etiqueta.associate = (models) => {
-    models.Etiqueta.hasMany(models.Objetos);
+    models.Etiqueta.belongsToMany(models.Objetos, {
+      as: 'etiquetas',
+      through: 'objeto_etiqueta',
+      constraints: false,
+    });
   };
 
   return Etiqueta;
