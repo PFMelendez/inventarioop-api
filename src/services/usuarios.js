@@ -37,19 +37,31 @@ export default {
       qry.nombre_usuario = credentials.user;
     }
 
-    const user = await Models.Usuario.findOne({
+    const userCredentials = await Models.Usuario.findOne({
+      attributes: ['id_usuarios', 'contrasena'],
       where: qry,
       include: [
         { all: true },
       ],
     });
-
-    const flag = (user.contrasena === credentials.contrasena);
-    delete user.contrasena;
+    console.log('========');
+    console.log(userCredentials);
+    const flag = (userCredentials.contrasena === credentials.contrasena);
+    console.log(flag);
+    console.log('========');
 
     if (!flag) {
       throw new Error('No match');
     }
+
+    const user = await Models.Usuario.findByPk(userCredentials.id_usuarios, {
+      attributes: {
+        exclude: ['contrasena'],
+      },
+      include: [
+        { all: true },
+      ],
+    });
 
     return user;
   },
