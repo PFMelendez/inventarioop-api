@@ -6,7 +6,7 @@ const api = Router();
 
 api.get('/', usuarios.hi);
 
-api.post('/', usuarios.hi);
+api.post('/', usuarios.create);
 
 api.post('/session', usuarios.hi);
 

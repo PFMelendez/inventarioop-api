@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     telefono: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING(14),
       comment: 'Nunero telefonico del usuario',
     },
@@ -46,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     cargo_usuario: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Clasificacion del usuario,capturiasta o encargado de inventario',
     },
@@ -64,14 +64,14 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     fecha_creacion: {
-      allowNull: true,
+      allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
     },
 
     fecha_actualizacion: {
-      allowNull: true,
+      allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
@@ -90,9 +90,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Usuario.associate = (models) => {
-    models.Usuario.belongsTo(models.TipoUsuario);
-    models.Usuario.hasMany(models.Objetos, { foreignKey: 'usuario_registro_entrada' });
-    models.Usuario.hasMany(models.Objetos, { foreignKey: 'usuario_registro_salida' });
+    models.Usuario.belongsTo(models.TipoUsuario, { foreignKey: 'tipo_usuario', as: 'TipoUsuario', targetKey: 'id_tipo_usuario' });
+    models.Usuario.hasMany(models.Objetos, { foreignKey: 'usuario_registro_entrada', as: 'ObjetosRegistro' });
+    models.Usuario.hasMany(models.Objetos, { foreignKey: 'usuario_registro_salida', as: 'ObjetosSalida' });
   };
 
   return Usuario;
