@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING(50),
       comment: 'Correo electronico del usuario',
+      unique: true,
     },
 
     telefono: {
@@ -37,6 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.STRING(20),
       comment: 'Nomre de usuario para logueo',
+      unique: true,
     },
 
     contrasena: {
