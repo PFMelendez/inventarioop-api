@@ -7,8 +7,7 @@ export default {
     });
   },
   async create(req, res) {
-    const { params } = req;
-    const estado = await services.estado.create(params);
+    const estado = await services.estado.create(req.parsedBody);
     res
       .status(200)
       .json({ estado });
