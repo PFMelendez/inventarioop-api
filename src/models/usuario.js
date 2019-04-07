@@ -73,14 +73,13 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     fecha_actualizacion: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
     },
 
     eliminado: {
-      allowNull: true,
+      allowNull: false,
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
       comment: 'La utilidad de activar o desactivar registro',

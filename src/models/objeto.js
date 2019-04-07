@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  class Objetos extends sequelize.Sequelize.Model { }
+  class Objetos extends sequelize.Sequelize.Model {}
   Objetos.init({
     id_objetos: {
       autoIncrement: true,
@@ -7,6 +7,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       type: DataTypes.INTEGER,
       comment: 'Id auto asignada a un nuevo usuario',
+    },
+
+    nombre: {
+      allowNull: false,
+      type: DataTypes.STRING(100),
+      comment: 'Nombre del objeto',
     },
 
     fecha_ingreso: {
@@ -17,40 +23,21 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     fecha_egreso: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       comment: 'Fecha de salida del objeto, fomato YYYY-MM-DD-HH:MM:SS',
     },
 
     lugar_hallazgo: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING(25),
       comment: 'Nombre del Area donde se encontro el objeto',
     },
 
-    etiquetas: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      comment: 'Llave foranea para las etiquetas de caracteristicas',
-    },
-
     informacion_adicional: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING(100),
       comment: 'Datos extra sobre el objeto al entrar al inventario',
-    },
-
-    usuario_encontro: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      comment: 'Llave foranea al tipo de usuario que encotro el objeto',
-    },
-
-    usuario_recibio: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      comment: 'Llave foranea  al tipo de usuario que recibio el objeto en almacen',
     },
 
     usuario_registro_entrada: {
@@ -60,14 +47,15 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     usuario_registro_salida: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Llave foranea  al tipo de usuario que registro la sealida del objeto',
     },
 
-    estado: {
-      allowNull: false,
+    id_estado: {
+      allowNull: true,
       type: DataTypes.INTEGER,
+      defaultValue: 1,
       comment: 'Informa el estado actual del objeto',
     },
 
@@ -85,14 +73,13 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     fecha_actualizacion: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
     },
 
     eliminado: {
-      allowNull: true,
+      allowNull: false,
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
       comment: 'La utilidad de activar o desactivar registro',
@@ -104,10 +91,18 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Objetos.associate = (models) => {
-    models.Objetos.hasMany(models.Etiqueta, { constraints: false });
-    models.Objetos.belongsTo(models.Usuario, { foreignKey: 'usuario_registro_entrada' });
-    models.Objetos.belongsTo(models.Usuario, { foreignKey: 'usuario_registro_salida' });
+    models.Objetos.belongsTo(models.Usuario, {
+      foreignKey: 'usuario_registro_entrada'
+    });
+    models.Objetos.belongsTo(models.Usuario, {
+      foreignKey: 'usuario_registro_salida'
+    });
     models.Objetos.belongsTo(models.Estado);
+    models.Objetos.belongsToMany(models.Etiqueta, {
+      as: 'etiquetas',
+      through: 'objeto_etiqueta',
+      constraints: false,
+    });
   };
 
   return Objetos;
