@@ -6,6 +6,8 @@ import objetos from './objetos';
 import subcategorias from './subcategorias';
 import tags from './tags';
 import usuarios from './usuarios';
+import tipoUsuario from './tipoUsuario';
+import estado from './estado';
 
 const { Router } = express;
 const api = Router();
@@ -31,5 +33,7 @@ api.use('/objetos', objetos);
 api.use('/subcategorias', subcategorias);
 api.use('/tags', tags);
 api.use('/usuarios', usuarios);
+api.use('/estado', estado);
+api.use('/tipo-usuario', tipoUsuario);
 
 export default api;
