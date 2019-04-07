@@ -15,9 +15,15 @@ export default {
     });
   },
   assignType: async (user, type) => user.setTipoUsuario(type),
-  get: async userId => Models.Usuario.findByPk(userId, {
-    include: [
-      { all: true },
-    ],
-  }),
+  get: async (userId) => {
+    const user = await Models.Usuario.findByPk(userId, {
+      include: [
+        { all: true },
+      ],
+    });
+
+    delete user.contrasena;
+
+    return user;
+  },
 };
