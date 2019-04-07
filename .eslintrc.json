@@ -17,7 +17,9 @@
       "error",
       "always"
     ],
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "camelcase": "off",
+    "no-console": "off"
   },
   "env": {
     "browser": true,
