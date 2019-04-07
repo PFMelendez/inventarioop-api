@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Id auto asignada a cada TipoUsuario de objetos',
     },
 
-    nombre_tipo_usuario: {
+    nombre: {
       allowNull: false,
       type: DataTypes.STRING(50),
       comment: 'Llave foranea a la Categoria principal',
+      field: 'nombre_tipo_usuario',
     },
 
     display: {

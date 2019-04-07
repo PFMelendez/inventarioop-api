@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     estado: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.STRING(25),
       comment: 'Informa el estado actual del usuario',
     },

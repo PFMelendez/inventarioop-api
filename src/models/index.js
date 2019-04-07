@@ -38,4 +38,12 @@ sequelize.sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
+// db.TipoUsuario.create({ nombre: 'admin', display: 'Administrador' });
+// db.TipoUsuario.create({ nombre: 'capture', display: 'Capturista' });
+
+// db.Estado.create({ descripcion: 'Bueno' });
+// db.Estado.create({ descripcion: 'Regular' });
+// db.Estado.create({ descripcion: 'Malo' });
+
+
 export default db;
