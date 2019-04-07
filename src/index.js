@@ -41,9 +41,15 @@ app.use('/docs', swaggerUi.serve, (req, res, next) => {
   }
 });
 
-app.use(bodyParser.json({
-  limit: config.bodyLimit,
-}));
+app.use(bodyParser.json());
+app.use((req, res, next) => {
+  const { body, params: rawParams, query } = req;
+  const params = { ...body, ...rawParams, ...query };
+  req.parsedBody = params;
+  next();
+});
+
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 // hook morganBody to express app
 if (process.env.NODE_ENV === 'development') {
