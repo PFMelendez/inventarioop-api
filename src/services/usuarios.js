@@ -44,11 +44,8 @@ export default {
         { all: true },
       ],
     });
-    console.log('========');
-    console.log(userCredentials);
+
     const flag = (userCredentials.contrasena === credentials.contrasena);
-    console.log(flag);
-    console.log('========');
 
     if (!flag) {
       throw new Error('No match');

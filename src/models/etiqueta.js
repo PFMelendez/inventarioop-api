@@ -55,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Etiqueta.associate = (models) => {
     models.Etiqueta.belongsToMany(models.Objetos, {
-      as: 'etiquetas',
+      as: 'Objetos',
       through: 'objeto_etiqueta',
       constraints: false,
     });

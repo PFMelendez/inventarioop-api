@@ -97,11 +97,11 @@ module.exports = (sequelize, DataTypes) => {
     models.Objetos.belongsTo(models.Usuario, {
       foreignKey: 'usuario_registro_salida',
     });
-    models.Objetos.belongsTo(models.Estado);
+    models.Objetos.belongsTo(models.Estado, { as: 'Estado', foreignKey: 'id_estado' });
     models.Objetos.belongsToMany(models.Etiqueta, {
-      as: 'etiquetas',
+      as: 'Etiquetas',
       through: 'objeto_etiqueta',
-      constraints: false,
+      // constraints: false,
     });
   };
 

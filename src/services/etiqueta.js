@@ -20,16 +20,16 @@ export default {
     return etiqueta;
   },
 
-  // create: async (params) => {
-  //   const { nombre_etiqueta } = params;
+  create: async (params) => {
+    const { nombre_etiqueta } = params;
 
-  //   if (!nombre_etiqueta) {
-  //     throw new Error('Missing Fields');
-  //   }
+    if (!nombre_etiqueta) {
+      throw new Error('Missing Fields');
+    }
 
-  //   const codigo = nombre_etiqueta;
-  //   codigo.toLowerCase();
+    // const codigo = nombre_etiqueta;
+    // codigo.toLowerCase();
 
-  //   return Models.Etiqueta.create({ nombre_etiqueta, codigo_etiqueta: codigo });
-  // },
+    return Models.Etiqueta.create({ nombre_etiqueta });
+  },
 };
