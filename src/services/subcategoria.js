@@ -22,6 +22,8 @@ export default {
 
     const categoria = await Models.Categoria.findByPk(categoriaId);
 
+    console.log(categoria);
+
     return categoria.getSubcategorias();
   },
 

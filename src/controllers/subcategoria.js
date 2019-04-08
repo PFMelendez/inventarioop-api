@@ -11,10 +11,10 @@ export default {
     const params = req.parsedBody;
 
     try {
-      const subcategorias = await services.subcategoria.get(params);
+      const subCategorias = await services.subcategoria.get(params);
 
       res.status(201).json({
-        subcategorias,
+        subCategorias,
       });
     } catch (err) {
       res.status(500).json({

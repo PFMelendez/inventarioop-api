@@ -7,7 +7,8 @@ export default {
     return etiqueta;
   },
 
-  findAll: async (nombre) => {
+  findAll: async (params) => {
+    const { nombre } = params;
     const { Op } = Models.Etiqueta.sequelize.Sequelize;
     const etiqueta = await Models.Etiqueta.findAll({
       where: {

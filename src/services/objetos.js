@@ -7,6 +7,7 @@ export default {
       tags: tagsIdsString,
       newTags: newTagsString,
       user_id: usuario_registro_entrada,
+      // subCategoria: subId,
     } = params;
 
     const createParams = {
@@ -17,6 +18,7 @@ export default {
     delete createParams.tags;
     delete createParams.newTags;
     delete createParams.user_id;
+    // delete createParams.subCategoria;
     // delete createParams.estado;
 
     const newTagsNames = JSON.parse(newTagsString);
@@ -31,7 +33,10 @@ export default {
 
     // const estado = await Models.Estado.findByPk(estadoId);
 
+    // const subCategoria = Models.Subcategoria.findByPk(subId);
+
     await objetoSimple.addEtiquetas([...tags, ...newTags]);
+    // await objetoSimple.setSubCategoria(subCategoria);
     // await objetoSimple.setEstado(estado);
 
 

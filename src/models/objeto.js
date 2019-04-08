@@ -103,6 +103,7 @@ module.exports = (sequelize, DataTypes) => {
       through: 'objeto_etiqueta',
       // constraints: false,
     });
+    // models.Objetos.belongsTo(models.Subcategoria, {})
   };
 
   return Objetos;

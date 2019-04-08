@@ -23,7 +23,7 @@ export default {
 
   async findAll(req, res) {
     try {
-      const etiquetas = await services.etiqueta.findAll(req.params.nombre);
+      const etiquetas = await services.etiqueta.findAll(req.parsedBody);
 
       res.status(202).json({
         etiquetas,

@@ -4,7 +4,7 @@ import controllers from '../controllers';
 const { estado } = controllers;
 const api = Router();
 
-api.get('/', estado.hi);
+api.get('/', estado.getAll);
 
 api.post('/', estado.create);
 
