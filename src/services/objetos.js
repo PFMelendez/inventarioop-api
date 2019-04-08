@@ -3,35 +3,35 @@ import Models from '../models';
 export default {
   create: async (params) => {
     const {
-      nombre,
-      etiquetas
+      tags,
+      newTags,
     } = params;
 
-    if (!nombre) {
-      throw new Error({
-        status: 400,
-        message: 'Bad Request. Missing Fields'
-      });
-    }
-
-    let etiquetasArray = [];
-    etiquetas.forEach(etiqueta => {
-      etiquetasArray.push({
-        'nombre_etiqueta': etiqueta
-      });
-    });
+    // if (!nombre_etiqueta) {
+    //   throw new Error({
+    //     status: 400,
+    //     message: 'Bad Request. Missing Fields'
+    //   });
+    // }
 
     const createParams = {
       ...params,
       'usuario_registro_entrada': 1,
-      'etiquetas': etiquetasArray,
+      'etiquetas': newTags,
     };
+    
+    delete createParams.tags;
+    delete createParams.newTags;
 
     return Models.Objetos.create(createParams, {
       include: [{
         model: Models.Etiqueta,
         as: 'etiquetas'
       }]
+    }).then(objeto => {
+      if ( tags ) {
+        return objeto.addEtiquetas(tags.map(tag => tag.id_etiqueta)).then(res => { return objeto });
+      }
     });
   },
   get: async (objectId) => {
