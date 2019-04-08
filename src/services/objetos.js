@@ -14,7 +14,7 @@ export default {
       });
     }
 
-    etiquetasArray = [];
+    let etiquetasArray = [];
     etiquetas.forEach(etiqueta => {
       etiquetasArray.push({
         'nombre_etiqueta': etiqueta
@@ -22,14 +22,14 @@ export default {
     });
 
     const createParams = {
-      'nombre': nombre,
+      ...params,
       'usuario_registro_entrada': 1,
       'etiquetas': etiquetasArray,
     };
 
     return Models.Objetos.create(createParams, {
       include: [{
-        model: db.Etiqueta,
+        model: Models.Etiqueta,
         as: 'etiquetas'
       }]
     });
