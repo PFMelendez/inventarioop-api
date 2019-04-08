@@ -5,35 +5,27 @@ export default {
     const {
       tags,
       newTags,
+      user_id: usuario_registro_entrada,
     } = params;
-
-    // if (!nombre_etiqueta) {
-    //   throw new Error({
-    //     status: 400,
-    //     message: 'Bad Request. Missing Fields'
-    //   });
-    // }
 
     const createParams = {
       ...params,
-      usuario_registro_entrada: 1,
+      usuario_registro_entrada,
       etiquetas: newTags,
     };
 
     delete createParams.tags;
     delete createParams.newTags;
+    delete createParams.user_id;
 
-    return Models.Objetos.create(createParams, {
-      include: [{
-        model: Models.Etiqueta,
-        as: 'etiquetas',
-      }],
-    }).then((objeto) => {
-      if (tags) {
-        return objeto.addEtiquetas(tags.map(tag => tag.id_etiqueta)).then(() => objeto);
-      }
-      return objeto;
+    const newTagsIds = newTags.map(async (item) => {
+      const tag = await Models.Etiqueta.create(item);
+      return tag.id_etiqueta;
     });
+
+    const objeto = await Models.Objetos.create(createParams);
+
+    return objeto.addEtiquetas([...tags, ...newTagsIds]);
   },
   get: async (objectId) => {
     const objeto = await Models.Objetos.findByPk(objectId, {

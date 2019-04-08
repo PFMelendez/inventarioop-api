@@ -35,4 +35,19 @@ export default {
       });
     }
   },
+
+  async create(req, res) {
+    try {
+      const etiqueta = await services.etiqueta.create(req.parsedBody);
+
+      res
+        .status(201)
+        .json({ etiqueta });
+    } catch (err) {
+      console.log(err);
+      res.status(501).json({
+        error: 'No se encontraron etiquetas.',
+      });
+    }
+  },
 };

@@ -6,7 +6,7 @@ const api = Router();
 
 api.get('/', etiqueta.getAll);
 
-api.post('/', etiqueta.hi);
+api.post('/', etiqueta.create);
 
 api.get('/:nombre', etiqueta.findAll);
 
