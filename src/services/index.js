@@ -1,16 +1,16 @@
-import categorias from './categorias';
+import categoria from './categoria';
 import objetos from './objetos';
-import subcategorias from './subcategorias';
-import tags from './tags';
+import subcategoria from './subcategoria';
+import etiqueta from './etiqueta';
 import usuarios from './usuarios';
 import tipoUsuario from './tipoUsuario';
 import estado from './estado';
 
 export default {
-  categorias,
+  categoria,
   objetos,
-  subcategorias,
-  tags,
+  subcategoria,
+  etiqueta,
   usuarios,
   tipoUsuario,
   estado,

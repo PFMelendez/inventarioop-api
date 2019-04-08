@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   class Categoria extends sequelize.Sequelize.Model { }
   Categoria.init({
-    id_categoria: {
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -30,13 +30,12 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Fecha y hora de cracion del registro',
     },
     fecha_actualizacion: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
     },
     eliminado: {
-      allowNull: true,
+      allowNull: false,
       type: DataTypes.BOOLEAN,
       defaultValue: 0,
       comment: 'La utilidad de activar o desactivar registro',
