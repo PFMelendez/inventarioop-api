@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  class Etiqueta extends sequelize.Sequelize.Model {}
+  class Etiqueta extends sequelize.Sequelize.Model { }
   Etiqueta.init({
     id_etiqueta: {
       autoIncrement: true,

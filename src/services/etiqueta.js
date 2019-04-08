@@ -8,13 +8,13 @@ export default {
   },
 
   findAll: async (nombre) => {
-    const Op = Models.Etiqueta.sequelize.Sequelize.Op;
+    const { Op } = Models.Etiqueta.sequelize.Sequelize;
     const etiqueta = await Models.Etiqueta.findAll({
       where: {
         nombre_etiqueta: {
-          [Op.like]: `%${nombre}%`
-        }
-      }
+          [Op.like]: `%${nombre}%`,
+        },
+      },
     });
 
     return etiqueta;

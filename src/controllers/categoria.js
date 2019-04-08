@@ -8,8 +8,6 @@ export default {
   },
 
   async getAll(req, res) {
-    const params = req.parsedBody;
-
     try {
       const categorias = await services.categoria.getAll();
 

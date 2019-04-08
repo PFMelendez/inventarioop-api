@@ -27,7 +27,7 @@ export default {
   async get(req, res) {
     const params = req.parsedBody;
     const {
-      id_objeto
+      id_objeto,
     } = params;
     try {
       const objeto = await services.objetos.get(id_objeto);

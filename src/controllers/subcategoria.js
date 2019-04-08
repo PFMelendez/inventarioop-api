@@ -11,14 +11,14 @@ export default {
     const params = req.parsedBody;
 
     try {
-      const subcategorias = await services.subcategoria.getAll();
+      const subcategorias = await services.subcategoria.get(params);
 
       res.status(201).json({
-        subcategorias
+        subcategorias,
       });
     } catch (err) {
       res.status(500).json({
-        error: 'No fue posible obtener las subcategorias'
+        error: 'No fue posible obtener las subcategorias',
       });
     }
   },
