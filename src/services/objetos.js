@@ -18,7 +18,7 @@ export default {
     delete createParams.tags;
     delete createParams.newTags;
     delete createParams.user_id;
-    // delete createParams.subCategoria;
+    delete createParams.subCategoria;
     // delete createParams.estado;
 
     const newTagsNames = JSON.parse(newTagsString);
