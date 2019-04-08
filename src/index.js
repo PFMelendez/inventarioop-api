@@ -63,6 +63,6 @@ app.server.listen(config.port);
 
 // console.log(db);
 
-console.log(`Started on 'http://localhost:${app.server.address().port}'`);
+console.log(`Started on 'http://localhost:${config.port}'`);
 
 export default app;

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  class Objetos extends sequelize.Sequelize.Model {}
+  class Objetos extends sequelize.Sequelize.Model { }
   Objetos.init({
     id_objetos: {
       autoIncrement: true,
@@ -92,17 +92,18 @@ module.exports = (sequelize, DataTypes) => {
 
   Objetos.associate = (models) => {
     models.Objetos.belongsTo(models.Usuario, {
-      foreignKey: 'usuario_registro_entrada'
+      foreignKey: 'usuario_registro_entrada',
     });
     models.Objetos.belongsTo(models.Usuario, {
-      foreignKey: 'usuario_registro_salida'
+      foreignKey: 'usuario_registro_salida',
     });
-    models.Objetos.belongsTo(models.Estado);
+    models.Objetos.belongsTo(models.Estado, { as: 'Estado', foreignKey: 'id_estado' });
     models.Objetos.belongsToMany(models.Etiqueta, {
-      as: 'etiquetas',
+      as: 'Etiquetas',
       through: 'objeto_etiqueta',
-      constraints: false,
+      // constraints: false,
     });
+    // models.Objetos.belongsTo(models.Subcategoria, {})
   };
 
   return Objetos;

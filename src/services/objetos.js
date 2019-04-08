@@ -3,42 +3,52 @@ import Models from '../models';
 export default {
   create: async (params) => {
     const {
-      tags,
-      newTags,
+      // estado: estadoId,
+      tags: tagsIdsString,
+      newTags: newTagsString,
+      user_id: usuario_registro_entrada,
+      // subCategoria: subId,
     } = params;
-
-    // if (!nombre_etiqueta) {
-    //   throw new Error({
-    //     status: 400,
-    //     message: 'Bad Request. Missing Fields'
-    //   });
-    // }
 
     const createParams = {
       ...params,
-      'usuario_registro_entrada': 1,
-      'etiquetas': newTags,
+      usuario_registro_entrada,
     };
-    
+
     delete createParams.tags;
     delete createParams.newTags;
+    delete createParams.user_id;
+    delete createParams.subCategoria;
+    // delete createParams.estado;
 
-    return Models.Objetos.create(createParams, {
-      include: [{
-        model: Models.Etiqueta,
-        as: 'etiquetas'
-      }]
-    }).then(objeto => {
-      if ( tags ) {
-        return objeto.addEtiquetas(tags.map(tag => tag.id_etiqueta)).then(res => { return objeto });
-      }
+    const newTagsNames = JSON.parse(newTagsString);
+    const tagsIds = JSON.parse(tagsIdsString);
+
+    const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiqueta.create({
+      nombre_etiqueta: item,
+    })));
+    const tags = await Promise.all(tagsIds.map(async item => Models.Etiqueta.findByPk(item)));
+
+    const objetoSimple = await Models.Objetos.create(createParams);
+
+    // const estado = await Models.Estado.findByPk(estadoId);
+
+    // const subCategoria = Models.Subcategoria.findByPk(subId);
+
+    await objetoSimple.addEtiquetas([...tags, ...newTags]);
+    // await objetoSimple.setSubCategoria(subCategoria);
+    // await objetoSimple.setEstado(estado);
+
+
+    return Models.Objetos.findByPk(objetoSimple.id_objetos, {
+      include: [{ all: true }],
     });
   },
   get: async (objectId) => {
     const objeto = await Models.Objetos.findByPk(objectId, {
       include: [{
-        all: true
-      }, ],
+        all: true,
+      }],
     });
 
     return objeto;

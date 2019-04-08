@@ -10,4 +10,14 @@ export default {
 
     return categorias;
   },
+
+  create: async (params) => {
+    const { descripcion, estante } = params;
+
+    if (!descripcion || !estante) {
+      throw new Error({ status: 400, error: 'Missing Fields' });
+    }
+
+    return Models.Categoria.create(params);
+  },
 };

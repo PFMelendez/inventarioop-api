@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  class Etiqueta extends sequelize.Sequelize.Model {}
+  class Etiqueta extends sequelize.Sequelize.Model { }
   Etiqueta.init({
     id_etiqueta: {
       autoIncrement: true,
@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(20),
       comment: 'Nombre de la etiqueta',
     },
+
+    // codigo_etiqueta: {
+    //   allowNull: false,
+    //   type: DataTypes.STRING(20),
+    //   comment: 'Codigo para buscar la etiqueta por texto en vez de id',
+    // },
 
     usuario_creo: {
       allowNull: true,
@@ -49,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Etiqueta.associate = (models) => {
     models.Etiqueta.belongsToMany(models.Objetos, {
-      as: 'etiquetas',
+      as: 'Objetos',
       through: 'objeto_etiqueta',
       constraints: false,
     });
