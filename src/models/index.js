@@ -34,11 +34,11 @@ Object.keys(db).forEach((modelName) => {
 });
 
 // sequelize.drop();
-sequelize.sync();
+// sequelize.sync();
 db.sequelize = sequelize;
-// db.Sequelize = Sequelize;
+db.Sequelize = Sequelize;
 
-db.Usuario.create({ nombre: 'foo', apellidos: 'bar', correo: 'a', nombre_usuario: 'b', contrasena: 'c' });
+// db.Usuario.create({ nombre: 'foo', apellidos: 'bar', correo: 'a', nombre_usuario: 'b', contrasena: 'c' });
 
 // db.Objetos.create({
 //   nombre: 'Charlie',

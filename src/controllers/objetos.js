@@ -17,9 +17,10 @@ export default {
         .status(201)
         .json({ objeto });
     } catch (err) {
+      console.log(err);
       res
         .status(500)
-        .json({ error: 'Interrnal Server Error' });
+        .json({ error: 'create objetos' });
     }
   },
 
