@@ -6,4 +6,17 @@ export default {
 
     return etiqueta;
   },
+
+  findAll: async (nombre) => {
+    const Op = Models.Etiqueta.sequelize.Sequelize.Op;
+    const etiqueta = await Models.Etiqueta.findAll({
+      where: {
+        nombre_etiqueta: {
+          [Op.like]: `%${nombre}%`
+        }
+      }
+    });
+
+    return etiqueta;
+  },
 };

@@ -22,4 +22,21 @@ export default {
       });
     }
   },
+
+  async findAll(req, res) {
+    const params = req.parsedBody;
+
+    try {
+      const etiquetas = await services.etiqueta.findAll(req.params.nombre);
+
+      res.status(202).json({
+        etiquetas
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(501).json({
+        error: 'No se encontraron etiquetas.'
+      });
+    }
+  },
 };

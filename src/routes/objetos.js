@@ -10,7 +10,7 @@ api.post('/', objetos.create);
 
 api.get('/:id', objetos.get);
 
-api.put('/:id', objetos.hi);
+api.put('/', objetos.create);
 
 api.delete('/:id', objetos.hi);
 

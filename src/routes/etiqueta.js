@@ -8,7 +8,7 @@ api.get('/', etiqueta.getAll);
 
 api.post('/', etiqueta.hi);
 
-api.get('/:id', etiqueta.hi);
+api.get('/:nombre', etiqueta.findAll);
 
 api.put('/:id', etiqueta.hi);
 
