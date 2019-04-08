@@ -22,4 +22,24 @@ export default {
       });
     }
   },
+
+  async create(req, res) {
+    try {
+      const subCategoria = await services.subcategoria.create(req.parsedBody);
+
+      res
+        .status(201)
+        .json({ subCategoria });
+    } catch (err) {
+      if (err.status) {
+        res
+          .status(err.status)
+          .json(err);
+      } else {
+        res
+          .status(500)
+          .json({ err, message: 'Internal Server Error' });
+      }
+    }
+  },
 };

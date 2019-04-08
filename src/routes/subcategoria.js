@@ -6,7 +6,7 @@ const api = Router();
 
 api.get('/', subcategoria.getAll);
 
-api.post('/', subcategoria.hi);
+api.post('/', subcategoria.create);
 
 api.get('/:id', subcategoria.hi);
 
