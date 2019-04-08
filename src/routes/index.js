@@ -1,10 +1,10 @@
 import express from 'express';
 // import middlewares from '../middlewares';
 import demo from './demo';
-import categorias from './categorias';
+import categoria from './categoria';
 import objetos from './objetos';
-import subcategorias from './subcategorias';
-import tags from './tags';
+import subcategoria from './subcategoria';
+import etiqueta from './etiqueta';
 import usuarios from './usuarios';
 import tipoUsuario from './tipoUsuario';
 import estado from './estado';
@@ -28,10 +28,10 @@ api.get('/_health', (req, res) => {
 // set routes here
 api.use('/demo', demo);
 
-api.use('/categorias', categorias);
+api.use('/categoria', categoria);
 api.use('/objetos', objetos);
-api.use('/subcategorias', subcategorias);
-api.use('/tags', tags);
+api.use('/subcategoria', subcategoria);
+api.use('/etiqueta', etiqueta);
 api.use('/usuarios', usuarios);
 api.use('/estado', estado);
 api.use('/tipo-usuario', tipoUsuario);

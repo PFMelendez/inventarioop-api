@@ -1,24 +1,12 @@
 module.exports = (sequelize, DataTypes) => {
   class Subcategoria extends sequelize.Sequelize.Model { }
   Subcategoria.init({
-    id_sub_categoria: {
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
       type: DataTypes.INTEGER,
       comment: 'Id auto asignada a cada subcategoria de objetos',
-    },
-
-    id_categoria: {
-      allowNull: false,
-      type: DataTypes.INTEGER,
-      comment: 'Llave foranea a la Categoria principal',
-    },
-
-    nombre_categoria: {
-      allowNull: false,
-      type: DataTypes.STRING(20),
-      comment: 'Nombre de tipo de subCategoria',
     },
 
     descripcion: {
@@ -41,9 +29,8 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     fecha_actualizacion: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
     },
 
@@ -57,7 +44,7 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
     freezeTableName: true,
-    tableName: 'subcategorias',
+    tableName: 'subcategoria',
     sequelize,
   });
 
