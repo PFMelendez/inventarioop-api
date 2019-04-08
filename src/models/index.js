@@ -34,35 +34,9 @@ Object.keys(db).forEach((modelName) => {
 });
 
 // sequelize.drop();
-// sequelize.sync();
+sequelize.sync();
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-// db.Usuario.create({ nombre: 'foo', apellidos: 'bar', correo: 'a', nombre_usuario: 'b', contrasena: 'c' });
-
-// db.Objetos.create({
-//   nombre: 'Charlie',
-//   usuario_registro_entrada: 1,
-
-//   etiquetas: [
-//     { nombre_etiqueta: 'Alpha'},
-//     { nombre_etiqueta: 'Beta'}
-//   ]
-// }, {
-//   include: [{
-//     model: db.Etiqueta,
-//     as: 'etiquetas'
-//   }]
-// })
-
-// db.Objetos.findAll({
-//   include: [{
-//     model: db.Etiqueta,
-//     as: 'etiquetas'
-//   }]
-// }).then(result => {
-//   console.log(result[0].etiquetas)
-// });
 
 // db.Categoria.create({ descripcion: 'Cat1', estante: 'Est1' });
 // db.Subcategoria.create({ descripcion: 'Subcat1', categorium_id_categoria: 1 });
