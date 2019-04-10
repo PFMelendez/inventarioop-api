@@ -101,9 +101,9 @@ module.exports = (sequelize, DataTypes) => {
     models.Objetos.belongsToMany(models.Etiqueta, {
       as: 'Etiquetas',
       through: 'objeto_etiqueta',
-      // constraints: false,
+      foreignKey: 'id_objeto',
     });
-    // models.Objetos.belongsTo(models.Subcategoria, {})
+    models.Objetos.belongsTo(models.Subcategoria, { as: 'Subcategoria', foreignKey: 'id_subcategoria' });
   };
 
   return Objetos;

@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
     models.Etiqueta.belongsToMany(models.Objetos, {
       as: 'Objetos',
       through: 'objeto_etiqueta',
-      constraints: false,
+      foreignKey: 'id_etiqueta',
     });
   };
 
