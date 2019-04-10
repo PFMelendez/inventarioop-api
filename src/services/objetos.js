@@ -3,11 +3,11 @@ import Models from '../models';
 export default {
   create: async (params) => {
     const {
-      // estado: estadoId,
+      estado: estadoId,
       tags: tagsIdsString,
       newTags: newTagsString,
       user_id: usuario_registro_entrada,
-      // subCategoria: subId,
+      subCategoria: subId,
     } = params;
 
     const createParams = {
@@ -22,8 +22,8 @@ export default {
     // delete createParams.estado;
 
     const newTagsNames = JSON.parse(newTagsString);
-    const tagsIds = JSON.parse(tagsIdsString);
 
+    const tagsIds = JSON.parse(tagsIdsString);
     const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiqueta.create({
       nombre_etiqueta: item,
     })));
@@ -31,13 +31,12 @@ export default {
 
     const objetoSimple = await Models.Objetos.create(createParams);
 
-    // const estado = await Models.Estado.findByPk(estadoId);
-
-    // const subCategoria = Models.Subcategoria.findByPk(subId);
+    const subCategoria = await Models.Subcategoria.findByPk(subId);
+    const estado = await Models.Estado.findByPk(estadoId);
 
     await objetoSimple.addEtiquetas([...tags, ...newTags]);
-    // await objetoSimple.setSubCategoria(subCategoria);
-    // await objetoSimple.setEstado(estado);
+    await objetoSimple.setSubcategoria(subCategoria);
+    await objetoSimple.setEstado(estado);
 
 
     return Models.Objetos.findByPk(objetoSimple.id_objetos, {
