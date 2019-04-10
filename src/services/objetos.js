@@ -33,10 +33,12 @@ export default {
 
     const subCategoria = await Models.Subcategoria.findByPk(subId);
     const estado = await Models.Estado.findByPk(estadoId);
+    const usuario = await Models.Usuario.findByPk(usuario_registro_entrada);
 
     await objetoSimple.addEtiquetas([...tags, ...newTags]);
     await objetoSimple.setSubcategoria(subCategoria);
     await objetoSimple.setEstado(estado);
+    await objetoSimple.setUsuarioEntrada(usuario);
 
 
     return Models.Objetos.findByPk(objetoSimple.id_objetos, {

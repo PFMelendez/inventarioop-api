@@ -93,9 +93,11 @@ module.exports = (sequelize, DataTypes) => {
   Objetos.associate = (models) => {
     models.Objetos.belongsTo(models.Usuario, {
       foreignKey: 'usuario_registro_entrada',
+      as: 'UsuarioEntrada',
     });
     models.Objetos.belongsTo(models.Usuario, {
       foreignKey: 'usuario_registro_salida',
+      as: 'UsuarioSalida',
     });
     models.Objetos.belongsTo(models.Estado, { as: 'Estado', foreignKey: 'id_estado' });
     models.Objetos.belongsToMany(models.Etiqueta, {
