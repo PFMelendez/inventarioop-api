@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  class Etiqueta extends sequelize.Sequelize.Model { }
-  Etiqueta.init({
-    id_etiqueta: {
+  class Etiquetas extends sequelize.Sequelize.Model { }
+  Etiquetas.init({
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -9,10 +9,11 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Id auto asignada a cada etiqueta',
     },
 
-    nombre_etiqueta: {
+    nombreEtiqueta: {
       allowNull: false,
       type: DataTypes.STRING(20),
       comment: 'Nombre de la etiqueta',
+      field: 'nombre_etiqueta',
     },
 
     // codigo_etiqueta: {
@@ -21,24 +22,27 @@ module.exports = (sequelize, DataTypes) => {
     //   comment: 'Codigo para buscar la etiqueta por texto en vez de id',
     // },
 
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: true,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: true,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -53,13 +57,13 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
   });
 
-  Etiqueta.associate = (models) => {
-    models.Etiqueta.belongsToMany(models.Objetos, {
+  Etiquetas.associate = (models) => {
+    models.Etiquetas.belongsToMany(models.Objetos, {
       as: 'Objetos',
-      through: 'objeto_etiqueta',
-      foreignKey: 'id_etiqueta',
+      through: 'objetos_etiquetas',
+      // foreignKey: 'id_etiqueta',
     });
   };
 
-  return Etiqueta;
+  return Etiquetas;
 };

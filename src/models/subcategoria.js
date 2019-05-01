@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  class Subcategoria extends sequelize.Sequelize.Model { }
-  Subcategoria.init({
+  class Subcategorias extends sequelize.Sequelize.Model { }
+  Subcategorias.init({
     id: {
       autoIncrement: true,
       primaryKey: true,
@@ -15,23 +15,26 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Campo para escribir una descripcion de la Subcategoria',
     },
 
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: true,
       type: DataTypes.DATE,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -48,10 +51,10 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
   });
 
-  Subcategoria.associate = (models) => {
-    models.Subcategoria.belongsTo(models.Categoria, { as: 'Categoria', foreignKey: 'categoria_id' });
-    models.Subcategoria.hasMany(models.Objetos);
+  Subcategorias.associate = (models) => {
+    models.Subcategorias.belongsTo(models.Categorias, { as: 'Categoria', foreignKey: 'categoriaId' });
+    models.Subcategorias.hasMany(models.Objetos);
   };
 
-  return Subcategoria;
+  return Subcategorias;
 };

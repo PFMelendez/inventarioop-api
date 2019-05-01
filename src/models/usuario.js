@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  class Usuario extends sequelize.Sequelize.Model { }
-  Usuario.init({
-    id_usuarios: {
+  class Usuarios extends sequelize.Sequelize.Model { }
+  Usuarios.init({
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -34,11 +34,12 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Nunero telefonico del usuario',
     },
 
-    nombre_usuario: {
+    nombreUsuario: {
       allowNull: false,
       type: DataTypes.STRING(20),
       comment: 'Nomre de usuario para logueo',
       unique: true,
+      field: 'nombre_usuario',
     },
 
     contrasena: {
@@ -47,10 +48,11 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Contraseña del usuario para logeo',
     },
 
-    cargo_usuario: {
+    cargoUsuario: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Clasificacion del usuario,capturiasta o encargado de inventario',
+      field: 'cargo_usuario',
     },
 
     estado: {
@@ -59,23 +61,34 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Informa el estado actual del usuario',
     },
 
-    usuario_creo: {
+    tipoUsuarioId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      comment: 'Informa el estado actual del objeto',
+      field: 'tipo_usuario_id',
+    },
+
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: true,
       type: DataTypes.DATE,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -90,11 +103,11 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
   });
 
-  Usuario.associate = (models) => {
-    models.Usuario.belongsTo(models.TipoUsuario, { foreignKey: 'tipo_usuario', as: 'TipoUsuario', targetKey: 'id_tipo_usuario' });
-    models.Usuario.hasMany(models.Objetos, { foreignKey: 'usuario_registro_entrada', as: 'ObjetosRegistro' });
-    models.Usuario.hasMany(models.Objetos, { foreignKey: 'usuario_registro_salida', as: 'ObjetosSalida' });
+  Usuarios.associate = (models) => {
+    models.Usuarios.belongsTo(models.TiposUsuarios, { foreignKey: 'tipoUsuarioId', as: 'TipoUsuario', targetKey: 'id' });
+    models.Usuarios.hasMany(models.Objetos, { foreignKey: 'usuarioRegistroEntrada', as: 'ObjetosRegistro' });
+    models.Usuarios.hasMany(models.Objetos, { foreignKey: 'usuarioRegistroSalida', as: 'ObjetosSalida' });
   };
 
-  return Usuario;
+  return Usuarios;
 };

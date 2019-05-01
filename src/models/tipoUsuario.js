@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  class TipoUsuario extends sequelize.Sequelize.Model { }
-  TipoUsuario.init({
-    id_tipo_usuario: {
+  class TiposUsuarios extends sequelize.Sequelize.Model { }
+  TiposUsuarios.init({
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -22,24 +22,27 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Campo para escribir una descripcion de la TipoUsuario',
     },
 
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -56,9 +59,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
   });
 
-  TipoUsuario.associate = (models) => {
-    models.TipoUsuario.hasMany(models.Usuario, { as: 'Usuarios' });
+  TiposUsuarios.associate = (models) => {
+    models.TiposUsuarios.hasMany(models.Usuarios, { as: 'Usuarios' });
   };
 
-  return TipoUsuario;
+  return TiposUsuarios;
 };

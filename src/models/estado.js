@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  class Estado extends sequelize.Sequelize.Model { }
-  Estado.init({
-    id_estado: {
+  class Estados extends sequelize.Sequelize.Model { }
+  Estados.init({
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -15,24 +15,27 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Campo para escribir una descripcion de la Estado',
     },
 
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -49,9 +52,9 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
   });
 
-  Estado.associate = (models) => {
-    models.Estado.hasMany(models.Objetos);
+  Estados.associate = (models) => {
+    models.Estados.hasMany(models.Objetos);
   };
 
-  return Estado;
+  return Estados;
 };
