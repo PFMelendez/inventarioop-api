@@ -1,11 +1,11 @@
 import demo from './demo';
-import categorias from './categoria';
+import categorias from './categorias';
 import objetos from './objetos';
-import subcategorias from './subcategoria';
-import etiquetas from './etiqueta';
+import subcategorias from './subcategorias';
+import etiquetas from './etiquetas';
 import usuarios from './usuarios';
-import tiposUsuarios from './tipoUsuario';
-import estados from './estado';
+import tiposUsuarios from './tiposUsuarios';
+import estados from './estados';
 
 export default {
   demo,
