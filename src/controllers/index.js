@@ -1,19 +1,19 @@
 import demo from './demo';
-import categoria from './categoria';
+import categorias from './categoria';
 import objetos from './objetos';
-import subcategoria from './subcategoria';
-import etiqueta from './etiqueta';
+import subcategorias from './subcategoria';
+import etiquetas from './etiqueta';
 import usuarios from './usuarios';
-import tipoUsuario from './tipoUsuario';
-import estado from './estado';
+import tiposUsuarios from './tipoUsuario';
+import estados from './estado';
 
 export default {
   demo,
-  categoria,
+  categorias,
   objetos,
-  subcategoria,
-  etiqueta,
+  subcategorias,
+  etiquetas,
   usuarios,
-  tipoUsuario,
-  estado,
+  tiposUsuarios,
+  estados,
 };

@@ -1,4 +1,7 @@
 import Models from '../models';
+import strHelpers from '../helpers/strings';
+
+const { snakeCaseToCamelCase } = strHelpers;
 
 export default {
   create: async (params) => {
@@ -10,30 +13,36 @@ export default {
       subCategoria: subId,
     } = params;
 
-    const createParams = {
+    const rawCreateParams = {
       ...params,
       usuario_registro_entrada,
     };
 
-    delete createParams.tags;
-    delete createParams.newTags;
-    delete createParams.user_id;
-    delete createParams.subCategoria;
-    // delete createParams.estado;
+    delete rawCreateParams.tags;
+    delete rawCreateParams.newTags;
+    delete rawCreateParams.user_id;
+    delete rawCreateParams.subCategoria;
+    // delete rawCreateParams.estado;
+
+    const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+      const camelCaseKey = snakeCaseToCamelCase(item);
+      acc[camelCaseKey] = rawCreateParams[item];
+      return acc;
+    });
 
     const newTagsNames = JSON.parse(newTagsString);
 
     const tagsIds = JSON.parse(tagsIdsString);
-    const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiqueta.create({
-      nombre_etiqueta: item,
+    const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiquetas.create({
+      nombreEtiqueta: item,
     })));
-    const tags = await Promise.all(tagsIds.map(async item => Models.Etiqueta.findByPk(item)));
+    const tags = await Promise.all(tagsIds.map(async item => Models.Etiquetas.findByPk(item)));
 
     const objetoSimple = await Models.Objetos.create(createParams);
 
-    const subCategoria = await Models.Subcategoria.findByPk(subId);
-    const estado = await Models.Estado.findByPk(estadoId);
-    const usuario = await Models.Usuario.findByPk(usuario_registro_entrada);
+    const subCategoria = await Models.Subcategorias.findByPk(subId);
+    const estado = await Models.Estados.findByPk(estadoId);
+    const usuario = await Models.Usuarios.findByPk(usuario_registro_entrada);
 
     await objetoSimple.addEtiquetas([...tags, ...newTags]);
     await objetoSimple.setSubcategoria(subCategoria);

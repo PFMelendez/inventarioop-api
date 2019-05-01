@@ -2,7 +2,7 @@ import Models from '../models';
 
 export default {
   getAll: async () => {
-    const categorias = await Models.Categoria.findAll({
+    const categorias = await Models.Categorias.findAll({
       include: [
         { all: true },
       ],
@@ -18,6 +18,6 @@ export default {
       throw new Error({ status: 400, error: 'Missing Fields' });
     }
 
-    return Models.Categoria.create(params);
+    return Models.Categorias.create(params);
   },
 };

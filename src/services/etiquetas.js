@@ -2,15 +2,15 @@ import Models from '../models';
 
 export default {
   getAll: async () => {
-    const etiqueta = await Models.Etiqueta.findAll();
+    const etiqueta = await Models.Etiquetas.findAll();
 
     return etiqueta;
   },
 
   findAll: async (params) => {
     const { nombre } = params;
-    const { Op } = Models.Etiqueta.sequelize.Sequelize;
-    const etiqueta = await Models.Etiqueta.findAll({
+    const { Op } = Models.Sequelize;
+    const etiqueta = await Models.Etiquetas.findAll({
       where: {
         nombre_etiqueta: {
           [Op.like]: `%${nombre}%`,
@@ -22,15 +22,15 @@ export default {
   },
 
   create: async (params) => {
-    const { nombre_etiqueta } = params;
+    const { nombre_etiqueta: nombreEtiqueta } = params;
 
-    if (!nombre_etiqueta) {
+    if (!nombreEtiqueta) {
       throw new Error('Missing Fields');
     }
 
-    // const codigo = nombre_etiqueta;
+    // const codigo = nombreEtiqueta;
     // codigo.toLowerCase();
 
-    return Models.Etiqueta.create({ nombre_etiqueta });
+    return Models.Etiqueta.create({ nombreEtiqueta });
   },
 };

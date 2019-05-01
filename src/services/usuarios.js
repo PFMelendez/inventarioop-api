@@ -13,11 +13,11 @@ export default {
     const createParams = { ...params };
     delete createParams.tipo_usuario;
 
-    return Models.Usuario.create(createParams);
+    return Models.Usuarios.create(createParams);
   },
   assignType: async (user, type) => user.setTipoUsuario(type),
   get: async (userId) => {
-    const user = await Models.Usuario.findByPk(userId, {
+    const user = await Models.Usuarios.findByPk(userId, {
       include: [
         { all: true },
       ],
@@ -37,7 +37,7 @@ export default {
       qry.nombre_usuario = credentials.user;
     }
 
-    const userCredentials = await Models.Usuario.findOne({
+    const userCredentials = await Models.Usuarios.findOne({
       attributes: ['id_usuarios', 'contrasena'],
       where: qry,
       include: [
@@ -51,7 +51,7 @@ export default {
       throw new Error('No match');
     }
 
-    const user = await Models.Usuario.findByPk(userCredentials.id_usuarios, {
+    const user = await Models.Usuarios.findByPk(userCredentials.id_usuarios, {
       attributes: {
         exclude: ['contrasena'],
       },
