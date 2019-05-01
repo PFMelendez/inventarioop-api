@@ -28,7 +28,7 @@ export default {
       const camelCaseKey = snakeCaseToCamelCase(item);
       acc[camelCaseKey] = rawCreateParams[item];
       return acc;
-    });
+    }, {});
 
     const newTagsNames = JSON.parse(newTagsString);
 

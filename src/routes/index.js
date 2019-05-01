@@ -1,13 +1,13 @@
 import express from 'express';
 // import middlewares from '../middlewares';
 import demo from './demo';
-import categoria from './categoria';
+import categorias from './categorias';
 import objetos from './objetos';
-import subcategoria from './subcategoria';
-import etiqueta from './etiqueta';
+import subcategorias from './subcategorias';
+import etiquetas from './etiquetas';
 import usuarios from './usuarios';
-import tipoUsuario from './tipoUsuario';
-import estado from './estado';
+import tiposUsuarios from './tiposUsuarios';
+import estados from './estados';
 
 const { Router } = express;
 const api = Router();
@@ -28,12 +28,12 @@ api.get('/_health', (req, res) => {
 // set routes here
 api.use('/demo', demo);
 
-api.use('/categoria', categoria);
+api.use('/categoria', categorias);
 api.use('/objetos', objetos);
-api.use('/subcategoria', subcategoria);
-api.use('/etiqueta', etiqueta);
+api.use('/subcategoria', subcategorias);
+api.use('/etiqueta', etiquetas);
 api.use('/usuarios', usuarios);
-api.use('/estado', estado);
-api.use('/tipo-usuario', tipoUsuario);
+api.use('/estado', estados);
+api.use('/tipo-usuario', tiposUsuarios);
 
 export default api;
