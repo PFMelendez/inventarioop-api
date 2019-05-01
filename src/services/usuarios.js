@@ -1,4 +1,7 @@
 import Models from '../models';
+import strHelpers from '../helpers/strings';
+
+const { snakeCaseToCamelCase } = strHelpers;
 
 export default {
   create: async (params) => {
@@ -10,7 +13,12 @@ export default {
       throw new Error({ status: 400, message: 'Bad Request. Missing Fields' });
     }
 
-    const createParams = { ...params };
+    const rawCreateParams = { ...params };
+    const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+      const camelCaseKey = snakeCaseToCamelCase(item);
+      acc[camelCaseKey] = rawCreateParams[item];
+      return acc;
+    }, {});
     delete createParams.tipo_usuario;
 
     return Models.Usuarios.create(createParams);
