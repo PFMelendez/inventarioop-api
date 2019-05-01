@@ -26,6 +26,9 @@ export default {
   assignType: async (user, type) => user.setTipoUsuario(type),
   get: async (userId) => {
     const user = await Models.Usuarios.findByPk(userId, {
+      attributes: {
+        exclude: ['contrasena'],
+      },
       include: [
         { all: true },
       ],
@@ -42,11 +45,11 @@ export default {
     if (credentials.user.indexOf('@') > 0) {
       qry.correo = credentials.user;
     } else {
-      qry.nombre_usuario = credentials.user;
+      qry.nombreUsuario = credentials.user;
     }
 
     const userCredentials = await Models.Usuarios.findOne({
-      attributes: ['id_usuarios', 'contrasena'],
+      attributes: ['id', 'contrasena'],
       where: qry,
       include: [
         { all: true },
@@ -59,7 +62,7 @@ export default {
       throw new Error('No match');
     }
 
-    const user = await Models.Usuarios.findByPk(userCredentials.id_usuarios, {
+    const user = await Models.Usuarios.findByPk(userCredentials.id, {
       attributes: {
         exclude: ['contrasena'],
       },
