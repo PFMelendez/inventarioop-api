@@ -9,7 +9,7 @@ export default {
 
   async getAll(req, res) {
     try {
-      const etiquetas = await services.etiqueta.getAll();
+      const etiquetas = await services.etiquetas.getAll();
 
       res.status(201).json({
         etiquetas,
@@ -23,7 +23,7 @@ export default {
 
   async findAll(req, res) {
     try {
-      const etiquetas = await services.etiqueta.findAll(req.parsedBody);
+      const etiquetas = await services.etiquetas.findAll(req.parsedBody);
 
       res.status(202).json({
         etiquetas,
@@ -38,7 +38,7 @@ export default {
 
   async create(req, res) {
     try {
-      const etiqueta = await services.etiqueta.create(req.parsedBody);
+      const etiqueta = await services.etiquetas.create(req.parsedBody);
 
       res
         .status(201)

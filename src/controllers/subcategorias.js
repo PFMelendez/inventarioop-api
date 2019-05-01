@@ -11,7 +11,7 @@ export default {
     const params = req.parsedBody;
 
     try {
-      const subCategorias = await services.subcategoria.get(params);
+      const subCategorias = await services.subcategorias.get(params);
 
       res.status(201).json({
         subCategorias,
@@ -25,7 +25,7 @@ export default {
 
   async create(req, res) {
     try {
-      const subCategoria = await services.subcategoria.create(req.parsedBody);
+      const subCategoria = await services.subcategorias.create(req.parsedBody);
 
       res
         .status(201)

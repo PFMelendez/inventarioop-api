@@ -9,7 +9,7 @@ export default {
 
   async getAll(req, res) {
     try {
-      const categorias = await services.categoria.getAll();
+      const categorias = await services.categorias.getAll();
 
       res.status(201).json({
         categorias,
@@ -23,7 +23,7 @@ export default {
 
   async create(req, res) {
     try {
-      const categoria = await services.categoria.create(req.parsedBody);
+      const categoria = await services.categorias.create(req.parsedBody);
 
       res
         .status(201)
