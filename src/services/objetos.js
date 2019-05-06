@@ -49,8 +49,9 @@ export default {
     await objetoSimple.setEstado(estado);
     await objetoSimple.setUsuarioEntrada(usuario);
 
+    console.log(objetoSimple);
 
-    return Models.Objetos.findByPk(objetoSimple.id_objetos, {
+    return Models.Objetos.findByPk(objetoSimple.id, {
       include: [{ all: true }],
     });
   },

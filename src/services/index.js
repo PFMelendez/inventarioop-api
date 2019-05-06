@@ -4,7 +4,7 @@ import subcategorias from './subcategorias';
 import etiquetas from './etiquetas';
 import usuarios from './usuarios';
 import tiposUsuarios from './tiposUsuarios';
-import estado from './estados';
+import estados from './estados';
 
 export default {
   categorias,
@@ -13,5 +13,5 @@ export default {
   etiquetas,
   usuarios,
   tiposUsuarios,
-  estado,
+  estados,
 };

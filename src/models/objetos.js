@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       type: DataTypes.DATE,
       comment: 'Fecha de salida del objeto, fomato YYYY-MM-DD-HH:MM:SS',
-      field: 'fecha_agreso',
+      field: 'fecha_egreso',
     },
 
     lugarHallazgo: {

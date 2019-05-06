@@ -31,6 +31,6 @@ export default {
     // const codigo = nombreEtiqueta;
     // codigo.toLowerCase();
 
-    return Models.Etiqueta.create({ nombreEtiqueta });
+    return Models.Etiquetas.create({ nombreEtiqueta });
   },
 };
