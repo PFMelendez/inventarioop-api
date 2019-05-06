@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
     freezeTableName: true,
     tableName: 'tipo_usuarios',
+    paranoid: true,
     sequelize,
   });
 
