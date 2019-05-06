@@ -12,7 +12,7 @@ export default {
     const { Op } = Models.Sequelize;
     const etiqueta = await Models.Etiquetas.findAll({
       where: {
-        nombre_etiqueta: {
+        nombreEtiqueta: {
           [Op.like]: `%${nombre}%`,
         },
       },
