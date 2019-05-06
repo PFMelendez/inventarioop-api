@@ -34,20 +34,33 @@ Object.keys(db).forEach((modelName) => {
 });
 
 // sequelize.drop();
-sequelize.sync();
+sequelize.sync().then(() => {
+  db.Categorias.create({ descripcion: 'Electronicos', estante: 'A' });
+  db.Subcategorias.create({ descripcion: 'Celulares', categoria: 1 });
+  db.Subcategorias.create({ descripcion: 'Computadoras', categoria: 1 });
+
+  db.Categorias.create({ descripcion: 'Equipo', estante: 'B' });
+  db.Subcategorias.create({ descripcion: 'Deportivo', categoria: 2 });
+  db.Subcategorias.create({ descripcion: 'Musical', categoria: 2 });
+
+  db.Categorias.create({ descripcion: 'Personales', estante: 'C' });
+  db.Subcategorias.create({ descripcion: 'Carteras', categoria: 3 });
+  db.Subcategorias.create({ descripcion: 'Tarjetas', categoria: 3 });
+
+  db.TiposUsuarios.create({ nombre: 'admin', display: 'Administrador' });
+  db.TiposUsuarios.create({ nombre: 'capture', display: 'Capturista' });
+
+  db.Estados.create({ descripcion: 'Bueno' });
+  db.Estados.create({ descripcion: 'Regular' });
+  db.Estados.create({ descripcion: 'Malo' });
+
+  db.Etiquetas.create({ nombreEtiqueta: 'Star Wars' });
+  db.Etiquetas.create({ nombreEtiqueta: 'Android' });
+  db.Etiquetas.create({ nombreEtiqueta: 'Harry Potter' });
+});
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-
-// db.Categoria.create({ descripcion: 'Cat1', estante: 'Est1' });
-// db.Subcategoria.create({ descripcion: 'Subcat1', categorium_id_categoria: 1 });
-// db.Subcategoria.create({ descripcion: 'Subcat2', categorium_id_categoria: 1 });
-
-// db.TipoUsuario.create({ nombre: 'admin', display: 'Administrador' });
-// db.TipoUsuario.create({ nombre: 'capture', display: 'Capturista' });
-
-// db.Estado.create({ descripcion: 'Bueno' });
-// db.Estado.create({ descripcion: 'Regular' });
-// db.Estado.create({ descripcion: 'Malo' });
 
 
 export default db;
