@@ -12,8 +12,11 @@ export default {
 
     try {
       const rawUser = await services.usuarios.create(params);
+      console.log('Pasa');
       await services.usuarios.assignType(rawUser, req.parsedBody.tipo_usuario);
-      const user = await services.usuarios.get(rawUser.id_usuarios);
+      console.log('Pasa2');
+      const user = await services.usuarios.get(rawUser.id);
+      console.log('Pasa3');
 
 
       res

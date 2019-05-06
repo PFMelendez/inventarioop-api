@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   class Objetos extends sequelize.Sequelize.Model { }
   Objetos.init({
-    id_objetos: {
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
@@ -15,67 +15,77 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Nombre del objeto',
     },
 
-    fecha_ingreso: {
+    fechaIngreso: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha de ingrso del objeto, fomato YYYY-MM-DD-HH:MM:SS',
+      field: 'fecha_ingreso',
     },
 
-    fecha_egreso: {
+    fechaEgreso: {
       allowNull: true,
       type: DataTypes.DATE,
       comment: 'Fecha de salida del objeto, fomato YYYY-MM-DD-HH:MM:SS',
+      field: 'fecha_egreso',
     },
 
-    lugar_hallazgo: {
+    lugarHallazgo: {
       allowNull: true,
       type: DataTypes.STRING(25),
       comment: 'Nombre del Area donde se encontro el objeto',
+      field: 'lugar_hallazgo',
     },
 
-    informacion_adicional: {
+    informacionAdicional: {
       allowNull: true,
       type: DataTypes.STRING(100),
       comment: 'Datos extra sobre el objeto al entrar al inventario',
+      field: 'informacion_adicional',
     },
 
-    usuario_registro_entrada: {
+    usuarioRegistroEntrada: {
       allowNull: false,
       type: DataTypes.INTEGER,
       comment: 'Llave foranea  al tipo de usuario que registro el objeto en el sistema',
+      field: 'usuario_registro_entrada',
     },
 
-    usuario_registro_salida: {
+    usuarioRegistroSalida: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Llave foranea  al tipo de usuario que registro la sealida del objeto',
+      field: 'usuario_registro_salida',
     },
 
-    id_estado: {
+    estadoId: {
       allowNull: true,
       type: DataTypes.INTEGER,
       defaultValue: 1,
       comment: 'Informa el estado actual del objeto',
+      field: 'id_estado',
     },
 
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'ususario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: true,
       type: DataTypes.DATE,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fechaActualizacion',
     },
 
     eliminado: {
@@ -91,21 +101,21 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Objetos.associate = (models) => {
-    models.Objetos.belongsTo(models.Usuario, {
-      foreignKey: 'usuario_registro_entrada',
+    models.Objetos.belongsTo(models.Usuarios, {
+      foreignKey: 'usuarioRegistroEntrada',
       as: 'UsuarioEntrada',
     });
-    models.Objetos.belongsTo(models.Usuario, {
-      foreignKey: 'usuario_registro_salida',
+    models.Objetos.belongsTo(models.Usuarios, {
+      foreignKey: 'usuarioRegistroSalida',
       as: 'UsuarioSalida',
     });
-    models.Objetos.belongsTo(models.Estado, { as: 'Estado', foreignKey: 'id_estado' });
-    models.Objetos.belongsToMany(models.Etiqueta, {
+    models.Objetos.belongsTo(models.Estados, { as: 'Estado', foreignKey: 'estadoId' });
+    models.Objetos.belongsToMany(models.Etiquetas, {
       as: 'Etiquetas',
-      through: 'objeto_etiqueta',
-      foreignKey: 'id_objeto',
+      through: 'objetos_etiquetas',
+      // foreignKey: 'id_objeto',
     });
-    models.Objetos.belongsTo(models.Subcategoria, { as: 'Subcategoria', foreignKey: 'id_subcategoria' });
+    models.Objetos.belongsTo(models.Subcategorias, { as: 'Subcategoria', foreignKey: 'subcategoriaId' });
   };
 
   return Objetos;

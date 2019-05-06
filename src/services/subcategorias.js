@@ -2,7 +2,7 @@ import Models from '../models';
 
 export default {
   getAll: async () => {
-    const subcategorias = await Models.Subcategoria.findAll({
+    const subcategorias = await Models.Subcategorias.findAll({
       include: [
         { all: true },
       ],
@@ -13,14 +13,14 @@ export default {
   get: async (params) => {
     const { categoria: categoriaId } = params;
     if (!categoriaId) {
-      return Models.Subcategoria.findAll({
+      return Models.Subcategorias.findAll({
         include: [
           { all: true },
         ],
       });
     }
 
-    const categoria = await Models.Categoria.findByPk(categoriaId);
+    const categoria = await Models.Categorias.findByPk(categoriaId);
 
     console.log(categoria);
 
@@ -33,14 +33,14 @@ export default {
       throw new Error('Missing Fields');
     }
 
-    const subCategoria = await Models.Subcategoria.create({ descripcion });
+    const subCategoria = await Models.Subcategorias.create({ descripcion });
 
     console.log(subCategoria);
 
-    const categoria = await Models.Categoria.findByPk(catId);
+    const categoria = await Models.Categorias.findByPk(catId);
     await subCategoria.setCategoria(categoria);
 
-    return Models.Subcategoria.findByPk(subCategoria.id, {
+    return Models.Subcategorias.findByPk(subCategoria.id, {
       include: [
         { all: true },
       ],

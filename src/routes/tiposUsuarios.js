@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import controllers from '../controllers';
 
-const { estado } = controllers;
+const { tiposUsuarios } = controllers;
 const api = Router();
 
-api.get('/', estado.getAll);
+api.get('/', tiposUsuarios.hi);
 
-api.post('/', estado.create);
+api.post('/', tiposUsuarios.create);
 
 export default api;

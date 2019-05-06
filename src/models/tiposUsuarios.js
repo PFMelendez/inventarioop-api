@@ -1,38 +1,48 @@
 module.exports = (sequelize, DataTypes) => {
-  class Estado extends sequelize.Sequelize.Model { }
-  Estado.init({
-    id_estado: {
+  class TiposUsuarios extends sequelize.Sequelize.Model { }
+  TiposUsuarios.init({
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
       type: DataTypes.INTEGER,
-      comment: 'Id auto asignada a cada Estado',
+      comment: 'Id auto asignada a cada TipoUsuario de objetos',
     },
 
-    descripcion: {
+    nombre: {
       allowNull: false,
       type: DataTypes.STRING(50),
-      comment: 'Campo para escribir una descripcion de la Estado',
+      comment: 'Llave foranea a la Categoria principal',
+      field: 'nombre_tipo_usuario',
     },
 
-    usuario_creo: {
+    display: {
+      allowNull: false,
+      type: DataTypes.STRING(50),
+      comment: 'Campo para escribir una descripcion de la TipoUsuario',
+    },
+
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -45,13 +55,13 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     underscored: true,
     freezeTableName: true,
-    tableName: 'estados',
+    tableName: 'tipo_usuarios',
     sequelize,
   });
 
-  Estado.associate = (models) => {
-    models.Estado.hasMany(models.Objetos);
+  TiposUsuarios.associate = (models) => {
+    models.TiposUsuarios.hasMany(models.Usuarios, { as: 'Usuarios' });
   };
 
-  return Estado;
+  return TiposUsuarios;
 };

@@ -1,44 +1,40 @@
 module.exports = (sequelize, DataTypes) => {
-  class Etiqueta extends sequelize.Sequelize.Model { }
-  Etiqueta.init({
-    id_etiqueta: {
+  class Subcategorias extends sequelize.Sequelize.Model { }
+  Subcategorias.init({
+    id: {
       autoIncrement: true,
       primaryKey: true,
       allowNull: false,
       type: DataTypes.INTEGER,
-      comment: 'Id auto asignada a cada etiqueta',
+      comment: 'Id auto asignada a cada subcategoria de objetos',
     },
 
-    nombre_etiqueta: {
+    descripcion: {
       allowNull: false,
-      type: DataTypes.STRING(20),
-      comment: 'Nombre de la etiqueta',
+      type: DataTypes.STRING(50),
+      comment: 'Campo para escribir una descripcion de la Subcategoria',
     },
 
-    // codigo_etiqueta: {
-    //   allowNull: false,
-    //   type: DataTypes.STRING(20),
-    //   comment: 'Codigo para buscar la etiqueta por texto en vez de id',
-    // },
-
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
 
-    fecha_creacion: {
-      allowNull: true,
+    fechaCreacion: {
+      allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
 
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: true,
       type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
 
     eliminado: {
@@ -50,16 +46,15 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     timestamps: false,
     underscored: true,
+    freezeTableName: true,
+    tableName: 'subcategoria',
     sequelize,
   });
 
-  Etiqueta.associate = (models) => {
-    models.Etiqueta.belongsToMany(models.Objetos, {
-      as: 'Objetos',
-      through: 'objeto_etiqueta',
-      foreignKey: 'id_etiqueta',
-    });
+  Subcategorias.associate = (models) => {
+    models.Subcategorias.belongsTo(models.Categorias, { as: 'Categoria', foreignKey: 'categoriaId' });
+    models.Subcategorias.hasMany(models.Objetos);
   };
 
-  return Etiqueta;
+  return Subcategorias;
 };

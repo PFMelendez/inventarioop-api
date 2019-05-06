@@ -8,7 +8,7 @@ export default {
   },
   async getAll(req, res) {
     try {
-      const estados = await services.estado.getAll();
+      const estados = await services.estados.getAll();
 
       res.status(201).json({
         estados,
@@ -21,7 +21,7 @@ export default {
   },
 
   async create(req, res) {
-    const estado = await services.estado.create(req.parsedBody);
+    const estado = await services.estados.create(req.parsedBody);
     res
       .status(200)
       .json({ estado });

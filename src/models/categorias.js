@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  class Categoria extends sequelize.Sequelize.Model { }
-  Categoria.init({
+  class Categorias extends sequelize.Sequelize.Model { }
+  Categorias.init({
     id: {
       autoIncrement: true,
       primaryKey: true,
@@ -18,21 +18,24 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(50),
       comment: 'Clave del estante',
     },
-    usuario_creo: {
+    usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Id del usuario que creo el registro',
+      field: 'usuario_creo',
     },
-    fecha_creacion: {
+    fechaCreacion: {
       allowNull: false,
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
       comment: 'Fecha y hora de cracion del registro',
+      field: 'fecha_creacion',
     },
-    fecha_actualizacion: {
+    fechaActualizacion: {
       allowNull: true,
       type: DataTypes.DATE,
       comment: 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
+      field: 'fecha_actualizacion',
     },
     eliminado: {
       allowNull: false,
@@ -46,8 +49,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
   });
 
-  Categoria.associate = (models) => {
-    models.Categoria.hasMany(models.Subcategoria, { foreignKey: 'categoria_id', as: 'Subcategorias' });
+  Categorias.associate = (models) => {
+    models.Categorias.hasMany(models.Subcategorias, { foreignKey: 'categoriaId', as: 'Subcategorias' });
   };
-  return Categoria;
+  return Categorias;
 };

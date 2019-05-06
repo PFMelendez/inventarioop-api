@@ -1,4 +1,7 @@
 import Models from '../models';
+import strHelpers from '../helpers/strings';
+
+const { snakeCaseToCamelCase } = strHelpers;
 
 export default {
   create: async (params) => {
@@ -10,14 +13,22 @@ export default {
       throw new Error({ status: 400, message: 'Bad Request. Missing Fields' });
     }
 
-    const createParams = { ...params };
+    const rawCreateParams = { ...params };
+    const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+      const camelCaseKey = snakeCaseToCamelCase(item);
+      acc[camelCaseKey] = rawCreateParams[item];
+      return acc;
+    }, {});
     delete createParams.tipo_usuario;
 
-    return Models.Usuario.create(createParams);
+    return Models.Usuarios.create(createParams);
   },
   assignType: async (user, type) => user.setTipoUsuario(type),
   get: async (userId) => {
-    const user = await Models.Usuario.findByPk(userId, {
+    const user = await Models.Usuarios.findByPk(userId, {
+      attributes: {
+        exclude: ['contrasena'],
+      },
       include: [
         { all: true },
       ],
@@ -34,11 +45,11 @@ export default {
     if (credentials.user.indexOf('@') > 0) {
       qry.correo = credentials.user;
     } else {
-      qry.nombre_usuario = credentials.user;
+      qry.nombreUsuario = credentials.user;
     }
 
-    const userCredentials = await Models.Usuario.findOne({
-      attributes: ['id_usuarios', 'contrasena'],
+    const userCredentials = await Models.Usuarios.findOne({
+      attributes: ['id', 'contrasena'],
       where: qry,
       include: [
         { all: true },
@@ -51,7 +62,7 @@ export default {
       throw new Error('No match');
     }
 
-    const user = await Models.Usuario.findByPk(userCredentials.id_usuarios, {
+    const user = await Models.Usuarios.findByPk(userCredentials.id, {
       attributes: {
         exclude: ['contrasena'],
       },

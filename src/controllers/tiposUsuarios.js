@@ -8,7 +8,7 @@ export default {
   },
   async create(req, res) {
     const { nombre, display } = req.parsedBody;
-    const tipoUsuario = await services.tipoUsuario.create({ nombre, display });
+    const tipoUsuario = await services.tiposUsuarios.create({ nombre, display });
     res
       .status(200)
       .json({ tipoUsuario });
