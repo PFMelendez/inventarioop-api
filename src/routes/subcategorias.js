@@ -8,10 +8,10 @@ api.get('/', subcategorias.getAll);
 
 api.post('/', subcategorias.create);
 
-api.get('/:id', subcategorias.hi);
+api.get('/:id', subcategorias.find);
 
-api.put('/:id', subcategorias.hi);
+api.put('/:id', subcategorias.edit);
 
-api.delete('/:id', subcategorias.hi);
+api.delete('/:id', subcategorias.delete);
 
 export default api;

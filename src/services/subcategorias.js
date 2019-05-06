@@ -46,4 +46,17 @@ export default {
       ],
     });
   },
+
+  find: async id => Models.Subcategorias.findByPk(id),
+  delete: async (id) => {
+    const subCategoria = await Models.Subcategorias.findByPk(id);
+    await subCategoria.destroy();
+  },
+  update: async (id, params) => {
+    const subCategoria = await Models.Subcategorias.findByPk(id);
+    const updateParams = { ...params };
+    if (updateParams.categoriaId) delete updateParams.categoriaId;
+    await subCategoria.update({ ...params });
+    return Models.Subcategorias.findByPk(id);
+  },
 };
