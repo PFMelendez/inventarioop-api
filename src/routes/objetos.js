@@ -4,11 +4,13 @@ import controllers from '../controllers';
 const { objetos } = controllers;
 const api = Router();
 
-api.get('/', objetos.hi);
+api.get('/:id', objetos.get);
 
 api.post('/', objetos.create);
 
-api.get('/:id', objetos.get);
+api.get('/', objetos.getAll);
+
+api.get('/nombre/:nombre', objetos.find);
 
 api.put('/', objetos.create);
 
