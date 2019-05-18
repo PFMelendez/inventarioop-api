@@ -64,4 +64,21 @@ export default {
 
     return objeto;
   },
+  getAll: async () => {
+    const objetos = await Models.Objetos.findAll();
+    return objetos;
+  },
+  find: async (params) => {
+    const { nombre } = params;
+    const { Op } = Models.Sequelize;
+    const objetos = await Models.Objetos.findAll({
+      where: {
+        nombre: {
+          [Op.like]: `%${nombre}%`,
+        },
+      },
+    });
+
+    return objetos;
+  },
 };
