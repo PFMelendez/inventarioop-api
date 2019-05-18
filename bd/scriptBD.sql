@@ -62,20 +62,6 @@ CREATE TABLE `tags` (
   PRIMARY KEY (`id_tag`))
 COMMENT = 'Tabla para agregar las tags para las busquedas de objetos';
 
-CREATE TABLE `objetos_tags` (
-  `id_objeto_tag` INT NOT NULL AUTO_INCREMENT COMMENT 'Id auto asignada cada relacion entre tag y objeto',
-  `id_tag` INT NOT NULL COMMENT 'id de tag relacionada',
-  `id_objeto` INT NOT NULL COMMENT 'Id del objeto relacionado',
-  `usuario_creo` INT COMMENT 'Id del usuario que creo el registro',
-  `fecha_creacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha y hora de cracion del registro',
-  `fecha_actualizacion` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Fecha y hora de ultimo movimiento en la base de datos de este registro',
-  `eliminado` BIT DEFAULT 0 COMMENT 'La utilidad de activar o desactivar registro',
-  PRIMARY KEY (`id_objeto_tag`),
-  FOREIGN KEY(id_tag) REFERENCES tags(id_tag),
-  FOREIGN KEY(id_objeto) REFERENCES objetos(id_objeto))
-COMMENT = 'Tabla para relacionar los objetos con sus tags';
-
-
 CREATE TABLE `tipo_usuario` (
   `id_tipo_usuario` INT NOT NULL AUTO_INCREMENT COMMENT 'Id auto asignada cada tipo de usuario',
   `nombre_tipo_usuario` VARCHAR(25) NOT NULL COMMENT 'Nombre de tipo de Usuario',
