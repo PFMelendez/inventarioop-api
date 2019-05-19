@@ -1,3 +1,4 @@
+import { isNumber } from 'util';
 import Models from '../models';
 import strHelpers from '../helpers/strings';
 
@@ -23,7 +24,9 @@ export default {
 
     return Models.Usuarios.create(createParams);
   },
+
   assignType: async (user, type) => user.setTipoUsuario(type),
+
   get: async (userId) => {
     const user = await Models.Usuarios.findByPk(userId, {
       attributes: {
@@ -34,7 +37,7 @@ export default {
       ],
     });
 
-    delete user.contrasena;
+    // delete user.contrasena;
 
     return user;
   },
@@ -72,5 +75,53 @@ export default {
     });
 
     return user;
+  },
+
+  getAll: async (page) => {
+    if (!isNumber(parseInt(page, 10))) {
+      throw new Error({
+        status: 403,
+        message: 'Invalid page number',
+      });
+    }
+    const offset = 10 * parseInt(page, 10);
+    const usuarios = await Models.Usuarios.findAll({
+      attributes: {
+        exclude: ['contrasena'],
+      },
+      include: [
+        { all: true },
+      ],
+      limit: 10,
+      offset,
+    });
+
+    return usuarios;
+  },
+
+  update: async (id, params) => {
+    const rawUsuario = await Models.Usuarios.findByPk(id);
+    const { tipoUsuario, ...updateParams } = params;
+
+    delete updateParams.tipoUsuario;
+    console.log(updateParams);
+    await rawUsuario.update(updateParams);
+
+    const usuario = await Models.Usuarios.findByPk(id);
+    await usuario.setTipoUsuario(tipoUsuario);
+
+    return Models.Usuarios.findByPk(id, {
+      attributes: {
+        exclude: ['contrasena'],
+      },
+      include: [
+        { all: true },
+      ],
+    });
+  },
+
+  delete: async (id) => {
+    const usuario = await Models.Usuarios.findByPk(id);
+    await usuario.destroy();
   },
 };
