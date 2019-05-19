@@ -45,7 +45,7 @@ export default {
 
   async find(req, res) {
     try {
-      const subCategoria = await services.subcategorias.create(req.params.id);
+      const subCategoria = await services.subcategorias.find(req.params.id);
 
       res
         .status(200)
