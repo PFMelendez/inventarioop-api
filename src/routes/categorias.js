@@ -8,10 +8,6 @@ api.get('/', categorias.getAll);
 
 api.post('/', categorias.create);
 
-api.get('/:id', categorias.hi);
-
-api.put('/:id', categorias.hi);
-
-api.delete('/:id', categorias.hi);
+api.get('/:id', categorias.find);
 
 export default api;
