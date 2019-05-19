@@ -86,4 +86,19 @@ export default {
       });
     }
   },
+
+  async update(req, res) {
+    try {
+      const objetos = await services.objetos.update(req.parsedBody);
+
+      res.status(202).json({
+        objetos,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(501).json({
+        error: 'No fue posible .',
+      });
+    }
+  },
 };

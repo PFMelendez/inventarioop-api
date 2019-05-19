@@ -130,4 +130,52 @@ export default {
 
     return Promise.all(objetos.map(async item => Models.Objetos.findByPk(item)));
   },
+
+  update: async (params) => {
+    const {
+      nombre,
+      objetoId,
+      tags: tagsIdsString,
+      newTags: newTagsString,
+      subCategoria: subId,
+    } = params;
+
+    const objeto = await Models.Objetos.findByPk(objetoId);
+
+    const dateNow = moment().toDate();
+    const updateThis = {};
+    if (nombre) {
+      updateThis.nombre = nombre;
+    }
+    updateThis.fechaActualizacion = dateNow;
+
+    let tags = [];
+    if (tagsIdsString) {
+      tags = await Promise.all(tagsIdsString.map(async item => Models.Etiquetas.findByPk(item)));
+    }
+
+    let newTags = [];
+    if (newTagsString) {
+      newTags = await Promise.all(newTagsString.map(async item => Models.Etiquetas.create({
+        nombreEtiqueta: item,
+      })));
+    }
+
+    if (newTagsString && tagsIdsString === []) {
+      await objeto.addEtiquetas([...newTags]);
+    } else if (newTagsString || tagsIdsString) {
+      await objeto.setEtiquetas([...tags, ...newTags]);
+    }
+
+    if (subId) {
+      const subCategoria = await Models.Subcategorias.findByPk(subId);
+      await objeto.setSubcategoria(subCategoria);
+    }
+
+    await objeto.update(updateThis);
+
+    return Models.Objetos.findByPk(objeto.id, {
+      include: [{ all: true }],
+    });
+  },
 };
