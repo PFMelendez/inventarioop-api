@@ -18,4 +18,6 @@ api.get('/donate/', objetos.getDonate);
 
 api.post('/donate/', objetos.postDonate);
 
+api.post('/update/', objetos.update);
+
 export default api;
