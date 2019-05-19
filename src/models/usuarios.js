@@ -98,7 +98,7 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'La utilidad de activar o desactivar registro',
     },
   }, {
-    timestamps: false,
+    timestamps: true,
     underscored: true,
     paranoid: true,
     sequelize,

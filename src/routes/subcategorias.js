@@ -4,7 +4,7 @@ import controllers from '../controllers';
 const { subcategorias } = controllers;
 const api = Router();
 
-api.get('/', subcategorias.getAll);
+api.get('/', subcategorias.get);
 
 api.post('/', subcategorias.create);
 
