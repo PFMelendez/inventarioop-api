@@ -4,7 +4,7 @@ import controllers from '../controllers';
 const { objetos } = controllers;
 const api = Router();
 
-api.get('/:id', objetos.get);
+// api.get('/:id', objetos.get);
 
 api.post('/', objetos.create);
 
@@ -13,5 +13,9 @@ api.get('/', objetos.find);
 api.put('/', objetos.create);
 
 api.delete('/:id', objetos.hi);
+
+api.get('/donate/', objetos.getDonate);
+
+api.post('/donate/', objetos.postDonate);
 
 export default api;

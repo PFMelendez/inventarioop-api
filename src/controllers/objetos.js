@@ -56,4 +56,34 @@ export default {
       });
     }
   },
+
+  async getDonate(req, res) {
+    try {
+      const objetos = await services.objetos.getDonate();
+
+      res.status(202).json({
+        objetos,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(501).json({
+        error: 'No se encontraron objetos.',
+      });
+    }
+  },
+
+  async postDonate(req, res) {
+    try {
+      const objetos = await services.objetos.postDonate(req.parsedBody);
+
+      res.status(202).json({
+        objetos,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(501).json({
+        error: 'No fue posible .',
+      });
+    }
+  },
 };
