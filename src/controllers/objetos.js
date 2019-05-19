@@ -20,7 +20,7 @@ export default {
       console.log(err);
       res
         .status(500)
-        .json({ error: 'create objetos' });
+        .json({ error: 'create objetos', err });
     }
   },
 

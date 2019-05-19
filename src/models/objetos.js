@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     usuarioRegistroEntrada: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Llave foranea  al tipo de usuario que registro el objeto en el sistema',
       field: 'usuario_registro_entrada',
@@ -58,13 +58,13 @@ module.exports = (sequelize, DataTypes) => {
       field: 'usuario_registro_salida',
     },
 
-    // estadoId: {
-    //   allowNull: true,
-    //   type: DataTypes.INTEGER,
-    //   defaultValue: 1,
-    //   comment: 'Informa el estado actual del objeto',
-    //   field: 'id_estado',
-    // },
+    estadoId: {
+      allowNull: true,
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+      comment: 'Informa el estado actual del objeto',
+      field: 'id_estado',
+    },
 
     usuarioCreo: {
       allowNull: true,
@@ -95,7 +95,7 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'La utilidad de activar o desactivar registro',
     },
   }, {
-    timestamps: false,
+    timestamps: true,
     underscored: true,
     paranoid: true,
     sequelize,
@@ -110,7 +110,7 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'usuarioRegistroSalida',
       as: 'UsuarioSalida',
     });
-    models.Objetos.belongsTo(models.Estados, { as: 'EstadoObjeto', foreignKey: 'estadoId' });
+    models.Objetos.belongsTo(models.Estados, { as: 'Estado', foreignKey: 'estadoId' });
     models.Objetos.belongsToMany(models.Etiquetas, {
       as: 'Etiquetas',
       through: 'objetos_etiquetas',

@@ -1,9 +1,9 @@
 import moment from 'moment';
 import { isNumber } from 'util';
 import Models from '../models';
-import strHelpers from '../helpers/strings';
+// import strHelpers from '../helpers/strings';
 
-const { snakeCaseToCamelCase } = strHelpers;
+// const { snakeCaseToCamelCase } = strHelpers;
 
 export default {
   create: async (params) => {
@@ -11,30 +11,32 @@ export default {
       estado: estadoId,
       tags: tagsIdsString,
       newTags: newTagsString,
-      user_id: usuario_registro_entrada,
+      userId: usuarioRegistroEntrada,
       subCategoria: subId,
+      categoria: catId,
     } = params;
 
-    const rawCreateParams = {
+    const createParams = {
       ...params,
-      usuario_registro_entrada,
+      usuarioRegistroEntrada,
     };
 
-    delete rawCreateParams.tags;
-    delete rawCreateParams.newTags;
-    delete rawCreateParams.user_id;
-    delete rawCreateParams.subCategoria;
+    delete createParams.tags;
+    delete createParams.newTags;
+    delete createParams.userId;
+    delete createParams.subCategoria;
+    delete createParams.categoria;
     // delete rawCreateParams.estado;
 
-    const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
-      const camelCaseKey = snakeCaseToCamelCase(item);
-      acc[camelCaseKey] = rawCreateParams[item];
-      return acc;
-    }, {});
+    // const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+    //   const camelCaseKey = snakeCaseToCamelCase(item);
+    //   acc[camelCaseKey] = rawCreateParams[item];
+    //   return acc;
+    // }, {});
 
     const newTagsNames = JSON.parse(newTagsString);
-
     const tagsIds = JSON.parse(tagsIdsString);
+
     const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiquetas.create({
       nombreEtiqueta: item,
     })));
@@ -43,11 +45,13 @@ export default {
     const objetoSimple = await Models.Objetos.create(createParams);
 
     const subCategoria = await Models.Subcategorias.findByPk(subId);
+    const categoria = await Models.Categorias.findByPk(catId);
     const estado = await Models.Estados.findByPk(estadoId);
-    const usuario = await Models.Usuarios.findByPk(usuario_registro_entrada);
+    const usuario = await Models.Usuarios.findByPk(usuarioRegistroEntrada);
 
     await objetoSimple.addEtiquetas([...tags, ...newTags]);
     await objetoSimple.setSubcategoria(subCategoria);
+    await objetoSimple.setCategoria(categoria);
     await objetoSimple.setEstado(estado);
     await objetoSimple.setUsuarioEntrada(usuario);
 
@@ -84,6 +88,7 @@ export default {
 
     if (!subcategoria && !nombre && !categoria) {
       return Models.Objetos.findAll({
+        where: { fechaEgreso: null },
         include: [
           { association: 'EstadoObjeto' },
           { association: 'UsuarioEntrada' },
@@ -102,6 +107,7 @@ export default {
       return subCategoriaInstance.getObjetos({
         where: {
           nombre: { [Op.like]: `%${nombre}%` },
+          fechaEgreso: null,
         },
         include: [
           { association: 'EstadoObjeto' },
@@ -121,6 +127,7 @@ export default {
       return categoriaInstance.getObjetos({
         where: {
           nombre: { [Op.like]: `%${nombre}%` },
+          fechaEgreso: null,
         },
         include: [
           { association: 'EstadoObjeto' },
@@ -138,6 +145,7 @@ export default {
     if (subcategoria > 0) {
       const subCategoryInstance = await Models.Subcategorias.findByPk(subcategoria);
       return subCategoryInstance.getObjetos({
+        where: { fechaEgreso: null },
         include: [
           { association: 'EstadoObjeto' },
           { association: 'UsuarioEntrada' },
@@ -154,6 +162,7 @@ export default {
     if (categoria > 0) {
       const categoryInstance = await Models.Categorias.findByPk(categoria);
       return categoryInstance.getObjetos({
+        where: { fechaEgreso: null },
         include: [
           { association: 'EstadoObjeto' },
           { association: 'UsuarioEntrada' },
@@ -171,6 +180,7 @@ export default {
     return Models.Objetos.findAll({
       where: {
         nombre: { [Op.like]: `%${nombre}%` },
+        fechaEgreso: null,
       },
       include: [
         { association: 'EstadoObjeto' },
@@ -229,6 +239,7 @@ export default {
         fechaIngreso: {
           [Op.lte]: moment().subtract(6, 'months').toDate(),
         },
+        fechaEgreso: null,
       },
       limit: 10,
       offset,
@@ -240,7 +251,7 @@ export default {
   postDonate: async (params) => {
     const {
       objetos,
-      user_id,
+      userId,
     } = params;
 
     const dateNow = moment().toDate();
@@ -248,7 +259,7 @@ export default {
     await objetos.forEach(async (objetoId) => {
       const objeto = await Models.Objetos.findByPk(objetoId);
       await objeto.update({
-        fechaEgreso: dateNow, fechaActualizacion: dateNow, usuarioRegistroSalida: user_id,
+        fechaEgreso: dateNow, fechaActualizacion: dateNow, usuarioRegistroSalida: userId,
       });
     });
 
