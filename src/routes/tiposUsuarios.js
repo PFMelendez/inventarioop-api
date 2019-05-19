@@ -4,7 +4,7 @@ import controllers from '../controllers';
 const { tiposUsuarios } = controllers;
 const api = Router();
 
-api.get('/', tiposUsuarios.hi);
+api.get('/', tiposUsuarios.getAll);
 
 api.post('/', tiposUsuarios.create);
 

@@ -7,10 +7,30 @@ export default {
     });
   },
   async create(req, res) {
-    const { nombre, display } = req.parsedBody;
-    const tipoUsuario = await services.tiposUsuarios.create({ nombre, display });
-    res
-      .status(200)
-      .json({ tipoUsuario });
+    try {
+      const { nombre, display } = req.parsedBody;
+      const tipoUsuario = await services.tiposUsuarios.create({ nombre, display });
+      res
+        .status(200)
+        .json({ tipoUsuario });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ err });
+    }
+  },
+  async getAll(req, res) {
+    try {
+      const tiposUsuarios = await services.tiposUsuarios.getAll();
+      res
+        .status(200)
+        .json({ tiposUsuarios });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ err });
+    }
   },
 };
