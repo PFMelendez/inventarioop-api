@@ -1,3 +1,4 @@
+import moment from 'moment';
 import Models from '../models';
 import strHelpers from '../helpers/strings';
 
@@ -83,7 +84,7 @@ export default {
         as: 'Etiquetas',
       },
     });
-    const objetosRes = [];
+    const objetosEtiquetas = [];
     if (etiquetasObj && objetos) {
       objetos.forEach((objeto) => {
         let etiquetaEqual = true;
@@ -93,25 +94,40 @@ export default {
           }
         });
         if (etiquetaEqual) {
-          objetosRes.push(objeto);
+          objetosEtiquetas.push(objeto);
         }
       });
     }
-    console.log(objetosRes);
-    return objetosRes;
+    return objetosEtiquetas ? objetos : objetosEtiquetas;
+  },
+  getDonate: async () => {
+    const { Op } = Models.Sequelize;
+    const objetos = await Models.Objetos.findAll({
+      where: {
+        fechaIngreso: {
+          [Op.lte]: moment().subtract(6, 'months').toDate(),
+        },
+      },
+    });
+
+    return objetos;
+  },
+
+  postDonate: async (params) => {
+    const {
+      objetos,
+      user_id,
+    } = params;
+
+    const dateNow = moment().toDate();
+
+    await objetos.forEach(async (objetoId) => {
+      const objeto = await Models.Objetos.findByPk(objetoId);
+      await objeto.update({
+        fechaEgreso: dateNow, fechaActualizacion: dateNow, usuarioRegistroSalida: user_id,
+      });
+    });
+
+    return Promise.all(objetos.map(async item => Models.Objetos.findByPk(item)));
   },
 };
-
-// function etiquetasFindById(etiquetas) {
-//   let qry = []
-
-//   etiquetas.forEach(element => {
-//     qry.push({  :  }) ;
-//   });
-
-//   query = {
-//     [Op.and]: [ nombreLike, subcategoriaIdEqual ],
-//   }
-
-//   return query
-// }
