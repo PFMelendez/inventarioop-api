@@ -20,4 +20,10 @@ export default {
 
     return Models.Categorias.create(params);
   },
+
+  find: async id => Models.Categorias.findByPk(id, {
+    include: [
+      { all: true },
+    ],
+  }),
 };

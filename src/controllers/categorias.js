@@ -11,7 +11,7 @@ export default {
     try {
       const categorias = await services.categorias.getAll();
 
-      res.status(201).json({
+      res.status(200).json({
         categorias,
       });
     } catch (err) {
@@ -38,6 +38,19 @@ export default {
           .status(500)
           .json({ err, message: 'Internal Server Error' });
       }
+    }
+  },
+
+  async find(req, res) {
+    try {
+      const categoria = await services.categorias.find(req.params.id);
+      res
+        .status(200)
+        .json({ categoria });
+    } catch (err) {
+      res
+        .status(500)
+        .json({ err });
     }
   },
 };
