@@ -13,7 +13,7 @@ export default {
     try {
       const subCategorias = await services.subcategorias.get(params);
 
-      res.status(201).json({
+      res.status(200).json({
         subCategorias,
       });
     } catch (err) {

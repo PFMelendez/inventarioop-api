@@ -9,19 +9,20 @@ export default {
 
   async create(req, res) {
     const params = req.parsedBody;
+    console.log(params);
 
     try {
       const rawUser = await services.usuarios.create(params);
       console.log('Pasa');
-      await services.usuarios.assignType(rawUser, req.parsedBody.tipo_usuario);
+      await services.usuarios.assignType(rawUser, req.parsedBody.tipoUsuario);
       console.log('Pasa2');
-      const user = await services.usuarios.get(rawUser.id);
+      const usuario = await services.usuarios.get(rawUser.id);
       console.log('Pasa3');
 
 
       res
         .status(201)
-        .json({ user });
+        .json({ usuario });
     } catch (err) {
       console.log(err);
       res

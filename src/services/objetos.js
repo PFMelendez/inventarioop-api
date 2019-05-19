@@ -1,4 +1,5 @@
 import moment from 'moment';
+import { isNumber } from 'util';
 import Models from '../models';
 import strHelpers from '../helpers/strings';
 
@@ -67,47 +68,170 @@ export default {
   },
   find: async (params) => {
     const {
+      page,
       subcategoria,
       nombre,
-      etiquetas,
+      categoria,
+      // etiquetas,
     } = params;
+
+    if (!isNumber(parseInt(page, 10))) {
+      throw new Error({ status: 403, message: 'Invalid page Number' });
+    }
+
+    const offset = 10 * parseInt(page, 10);
     const { Op } = Models.Sequelize;
-    const nombreLike = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : 1;
-    const subcategoriaIdEqual = subcategoria ? { subcategoriaId: subcategoria } : 1;
-    const etiquetasObj = etiquetas ? JSON.parse(etiquetas) : etiquetas;
-    const objetos = await Models.Objetos.findAll({
-      where: {
-        [Op.and]: [nombreLike, subcategoriaIdEqual],
-      },
-      include: {
-        model: Models.Etiquetas,
-        as: 'Etiquetas',
-      },
-    });
-    const objetosEtiquetas = [];
-    if (etiquetasObj && objetos) {
-      objetos.forEach((objeto) => {
-        let etiquetaEqual = true;
-        objeto.dataValues.Etiquetas.forEach((etiqueta) => {
-          if (!etiquetasObj.includes(etiqueta.dataValues.id)) {
-            etiquetaEqual = false;
-          }
-        });
-        if (etiquetaEqual) {
-          objetosEtiquetas.push(objeto);
-        }
+
+    if (!subcategoria && !nombre && !categoria) {
+      return Models.Objetos.findAll({
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
       });
     }
-    return objetosEtiquetas ? objetos : objetosEtiquetas;
+
+    if (subcategoria > 0 && nombre) {
+      const subCategoriaInstance = await Models.Subcategorias.findByPk(subcategoria);
+      return subCategoriaInstance.getObjetos({
+        where: {
+          nombre: { [Op.like]: `%${nombre}%` },
+        },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    if (categoria > 0 && nombre) {
+      const categoriaInstance = await Models.Categorias.findByPk(categoria);
+      return categoriaInstance.getObjetos({
+        where: {
+          nombre: { [Op.like]: `%${nombre}%` },
+        },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    if (subcategoria > 0) {
+      const subCategoryInstance = await Models.Subcategorias.findByPk(subcategoria);
+      return subCategoryInstance.getObjetos({
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    if (categoria > 0) {
+      const categoryInstance = await Models.Categorias.findByPk(categoria);
+      return categoryInstance.getObjetos({
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    // if (nombre) {
+    return Models.Objetos.findAll({
+      where: {
+        nombre: { [Op.like]: `%${nombre}%` },
+      },
+      include: [
+        { association: 'EstadoObjeto' },
+        { association: 'UsuarioEntrada' },
+        { association: 'UsuarioSalida' },
+        { association: 'Etiquetas' },
+        { association: 'Subcategoria' },
+        { association: 'Categoria' },
+      ],
+      limit: 10,
+      offset,
+    });
+    // }
+
+
+    // const { Op } = Models.Sequelize;
+    // const nombreLike = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : 1;
+    // const subcategoriaIdEqual = subcategoria ? { subcategoriaId: subcategoria } : 1;
+    // // const etiquetasObj = etiquetas ? JSON.parse(etiquetas) : etiquetas;
+    // const objetos = await Models.Objetos.findAll({
+    //   where: {
+    //     [Op.and]: [nombreLike, subcategoriaIdEqual],
+    //   },
+    //   include: {
+    //     all: true,
+    //   },
+    //   limit: 10,
+    //   offset,
+    // });
+
+    // return objetos;
+    // const objetosEtiquetas = [];
+    // if (etiquetasObj && objetos) {
+    //   objetos.forEach((objeto) => {
+    //     let etiquetaEqual = true;
+    //     objeto.dataValues.Etiquetas.forEach((etiqueta) => {
+    //       if (!etiquetasObj.includes(etiqueta.dataValues.id)) {
+    //         etiquetaEqual = false;
+    //       }
+    //     });
+    //     if (etiquetaEqual) {
+    //       objetosEtiquetas.push(objeto);
+    //     }
+    //   });
+    // }
+    // return objetosEtiquetas ? objetos : objetosEtiquetas;
   },
-  getDonate: async () => {
+  getDonate: async (page) => {
     const { Op } = Models.Sequelize;
+    if (!isNumber(parseInt(page, 10))) {
+      throw new Error({ status: 403, message: 'Invalid page Number' });
+    }
+    const offset = 10 * parseInt(page, 10);
     const objetos = await Models.Objetos.findAll({
       where: {
         fechaIngreso: {
           [Op.lte]: moment().subtract(6, 'months').toDate(),
         },
       },
+      limit: 10,
+      offset,
     });
 
     return objetos;

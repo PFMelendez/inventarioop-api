@@ -58,13 +58,13 @@ module.exports = (sequelize, DataTypes) => {
       field: 'usuario_registro_salida',
     },
 
-    estadoId: {
-      allowNull: true,
-      type: DataTypes.INTEGER,
-      defaultValue: 1,
-      comment: 'Informa el estado actual del objeto',
-      field: 'id_estado',
-    },
+    // estadoId: {
+    //   allowNull: true,
+    //   type: DataTypes.INTEGER,
+    //   defaultValue: 1,
+    //   comment: 'Informa el estado actual del objeto',
+    //   field: 'id_estado',
+    // },
 
     usuarioCreo: {
       allowNull: true,
@@ -110,13 +110,14 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'usuarioRegistroSalida',
       as: 'UsuarioSalida',
     });
-    models.Objetos.belongsTo(models.Estados, { as: 'Estado', foreignKey: 'estadoId' });
+    models.Objetos.belongsTo(models.Estados, { as: 'EstadoObjeto', foreignKey: 'estadoId' });
     models.Objetos.belongsToMany(models.Etiquetas, {
       as: 'Etiquetas',
       through: 'objetos_etiquetas',
       // foreignKey: 'id_objeto',
     });
     models.Objetos.belongsTo(models.Subcategorias, { as: 'Subcategoria', foreignKey: 'subcategoriaId' });
+    models.Objetos.belongsTo(models.Categorias, { as: 'Categoria', foreignKey: 'categoriaId' });
   };
 
   return Objetos;

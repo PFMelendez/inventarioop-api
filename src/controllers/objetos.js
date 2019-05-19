@@ -44,6 +44,7 @@ export default {
 
   async find(req, res) {
     try {
+      console.log(req.parsedBody);
       const objetos = await services.objetos.find(req.parsedBody);
 
       res.status(202).json({
@@ -53,13 +54,14 @@ export default {
       console.log(err);
       res.status(501).json({
         error: 'No se encontraron objetos.',
+        err,
       });
     }
   },
 
   async getDonate(req, res) {
     try {
-      const objetos = await services.objetos.getDonate();
+      const objetos = await services.objetos.getDonate(req.parsedBody.page);
 
       res.status(202).json({
         objetos,
@@ -83,6 +85,7 @@ export default {
       console.log(err);
       res.status(501).json({
         error: 'No fue posible .',
+        err,
       });
     }
   },
