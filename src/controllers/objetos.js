@@ -42,27 +42,12 @@ export default {
     }
   },
 
-  async getAll(req, res) {
+  async find(req, res) {
     try {
-      const objetos = await services.objetos.getAll();
+      const objetos = await services.objetos.find(req.parsedBody);
 
       res.status(202).json({
         objetos,
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(501).json({
-        error: 'No se encontraron objetos.',
-      });
-    }
-  },
-
-  async find(req, res) {
-    try {
-      const objeto = await services.objetos.find(req.params);
-
-      res.status(202).json({
-        objeto,
       });
     } catch (err) {
       console.log(err);

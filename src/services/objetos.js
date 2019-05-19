@@ -64,21 +64,54 @@ export default {
 
     return objeto;
   },
-  getAll: async () => {
-    const objetos = await Models.Objetos.findAll();
-    return objetos;
-  },
   find: async (params) => {
-    const { nombre } = params;
+    const {
+      subcategoria,
+      nombre,
+      etiquetas,
+    } = params;
     const { Op } = Models.Sequelize;
+    const nombreLike = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : 1;
+    const subcategoriaIdEqual = subcategoria ? { subcategoriaId: subcategoria } : 1;
+    const etiquetasObj = etiquetas ? JSON.parse(etiquetas) : etiquetas;
     const objetos = await Models.Objetos.findAll({
       where: {
-        nombre: {
-          [Op.like]: `%${nombre}%`,
-        },
+        [Op.and]: [nombreLike, subcategoriaIdEqual],
+      },
+      include: {
+        model: Models.Etiquetas,
+        as: 'Etiquetas',
       },
     });
-
-    return objetos;
+    const objetosRes = [];
+    if (etiquetasObj && objetos) {
+      objetos.forEach((objeto) => {
+        let etiquetaEqual = true;
+        objeto.dataValues.Etiquetas.forEach((etiqueta) => {
+          if (!etiquetasObj.includes(etiqueta.dataValues.id)) {
+            etiquetaEqual = false;
+          }
+        });
+        if (etiquetaEqual) {
+          objetosRes.push(objeto);
+        }
+      });
+    }
+    console.log(objetosRes);
+    return objetosRes;
   },
 };
+
+// function etiquetasFindById(etiquetas) {
+//   let qry = []
+
+//   etiquetas.forEach(element => {
+//     qry.push({  :  }) ;
+//   });
+
+//   query = {
+//     [Op.and]: [ nombreLike, subcategoriaIdEqual ],
+//   }
+
+//   return query
+// }
