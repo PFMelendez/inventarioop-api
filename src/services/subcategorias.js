@@ -47,7 +47,11 @@ export default {
     });
   },
 
-  find: async id => Models.Subcategorias.findByPk(id),
+  find: async id => Models.Subcategorias.findByPk(id, {
+    include: [
+      { all: true },
+    ],
+  }),
   delete: async (id) => {
     const subCategoria = await Models.Subcategorias.findByPk(id);
     await subCategoria.destroy();
@@ -57,6 +61,10 @@ export default {
     const updateParams = { ...params };
     if (updateParams.categoriaId) delete updateParams.categoriaId;
     await subCategoria.update({ ...params });
-    return Models.Subcategorias.findByPk(id);
+    return Models.Subcategorias.findByPk(id, {
+      include: [
+        { all: true },
+      ],
+    });
   },
 };

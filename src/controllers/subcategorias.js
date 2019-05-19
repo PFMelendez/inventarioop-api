@@ -7,7 +7,7 @@ export default {
     });
   },
 
-  async getAll(req, res) {
+  async get(req, res) {
     const params = req.parsedBody;
 
     try {
