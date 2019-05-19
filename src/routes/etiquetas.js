@@ -10,8 +10,4 @@ api.post('/', etiquetas.create);
 
 api.get('/', etiquetas.findAll);
 
-api.put('/:id', etiquetas.hi);
-
-api.delete('/:id', etiquetas.hi);
-
 export default api;
