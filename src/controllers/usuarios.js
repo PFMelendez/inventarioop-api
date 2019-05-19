@@ -23,9 +23,10 @@ export default {
         .status(201)
         .json({ user });
     } catch (err) {
+      console.log(err);
       res
         .status(500)
-        .json({ error: 'Interrnal Server Error' });
+        .json({ error: 'Interrnal Server Error', err });
     }
   },
 
@@ -39,6 +40,60 @@ export default {
       res
         .status(403)
         .json({ error: 'No match for username/password credentials' });
+    }
+  },
+
+  async getAll(req, res) {
+    try {
+      const usuarios = await services.usuarios.getAll(req.parsedBody.page);
+      res
+        .status(200)
+        .json({ usuarios });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ err });
+    }
+  },
+
+  async get(req, res) {
+    try {
+      const usuario = await services.usuarios.get(req.params.id);
+      res
+        .status(200)
+        .json({ usuario });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ err });
+    }
+  },
+
+  async edit(req, res) {
+    try {
+      const usuarios = await services.usuarios.update(req.params.id, req.parsedBody);
+      res
+        .status(200)
+        .json({ usuarios });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ err });
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      await services.usuarios.delete(req.params.id);
+      res.sendStatus(200);
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ err });
     }
   },
 };

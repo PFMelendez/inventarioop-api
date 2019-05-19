@@ -4,16 +4,16 @@ import controllers from '../controllers';
 const { usuarios } = controllers;
 const api = Router();
 
-api.get('/', usuarios.hi);
+api.get('/', usuarios.getAll);
 
 api.post('/', usuarios.create);
 
 api.post('/login', usuarios.login);
 
-api.get('/:id', usuarios.hi);
+api.get('/:id', usuarios.get);
 
-api.put('/:id', usuarios.hi);
+api.put('/:id', usuarios.edit);
 
-api.delete('/:id', usuarios.hi);
+api.delete('/:id', usuarios.delete);
 
 export default api;
