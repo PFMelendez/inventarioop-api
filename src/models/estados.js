@@ -49,6 +49,7 @@ module.exports = (sequelize, DataTypes) => {
     underscored: true,
     freezeTableName: true,
     tableName: 'estados',
+    paranoid: true,
     sequelize,
   });
 
