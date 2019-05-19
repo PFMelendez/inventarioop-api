@@ -2,6 +2,7 @@ import Sequelize from 'sequelize';
 import fs from 'fs';
 import path from 'path';
 import config from '../config';
+import services from '../services';
 
 const {
   database,
@@ -35,17 +36,20 @@ Object.keys(db).forEach((modelName) => {
 
 // sequelize.drop();
 sequelize.sync().then(() => {
-  db.Categorias.create({ descripcion: 'Electronicos', estante: 'A' });
-  db.Subcategorias.create({ descripcion: 'Celulares', categoria: 1 });
-  db.Subcategorias.create({ descripcion: 'Computadoras', categoria: 1 });
+  db.Categorias.create({ descripcion: 'Electronicos', estante: 'A' }).then((categoria) => {
+    services.subcategorias.create({ descripcion: 'Celulares', categoria: categoria.id });
+    services.subcategorias.create({ descripcion: 'Computadoras', categoria: categoria.id });
+  });
 
-  db.Categorias.create({ descripcion: 'Equipo', estante: 'B' });
-  db.Subcategorias.create({ descripcion: 'Deportivo', categoria: 2 });
-  db.Subcategorias.create({ descripcion: 'Musical', categoria: 2 });
+  db.Categorias.create({ descripcion: 'Equipo', estante: 'B' }).then((categoria) => {
+    services.subcategorias.create({ descripcion: 'Deportivo', categoria: categoria.id });
+    services.subcategorias.create({ descripcion: 'Musical', categoria: categoria.id });
+  });
 
-  db.Categorias.create({ descripcion: 'Personales', estante: 'C' });
-  db.Subcategorias.create({ descripcion: 'Carteras', categoria: 3 });
-  db.Subcategorias.create({ descripcion: 'Tarjetas', categoria: 3 });
+  db.Categorias.create({ descripcion: 'Personales', estante: 'C' }).then((categoria) => {
+    services.subcategorias.create({ descripcion: 'Carteras', categoria: categoria.id });
+    services.subcategorias.create({ descripcion: 'Tarjetas', categoria: categoria.id });
+  });
 
   db.TiposUsuarios.create({ nombre: 'admin', display: 'Administrador' });
   db.TiposUsuarios.create({ nombre: 'capture', display: 'Capturista' });
