@@ -36,12 +36,12 @@ export default {
   },
 
   create: async (params) => {
-    const { descripcion, categoria: catId } = params;
-    if (!descripcion || !catId) {
+    const { descripcion, categoria: catId, seccion } = params;
+    if (!descripcion || !catId || !seccion) {
       throw new Error('Missing Fields');
     }
 
-    const subCategoria = await Models.Subcategorias.create({ descripcion });
+    const subCategoria = await Models.Subcategorias.create({ descripcion, seccion });
 
     console.log(subCategoria);
 

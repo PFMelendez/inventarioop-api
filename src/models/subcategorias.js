@@ -15,6 +15,12 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'Campo para escribir una descripcion de la Subcategoria',
     },
 
+    seccion: {
+      allowNull: false,
+      type: DataTypes.STRING(50),
+      comment: 'Campo para escribir una descripcion de la Subcategoria',
+    },
+
     usuarioCreo: {
       allowNull: true,
       type: DataTypes.INTEGER,
