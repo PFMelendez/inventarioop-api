@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { isNumber } from 'util';
 import Models from '../models';
+// import fileUpload from '../helpers/fileUpload';
 // import strHelpers from '../helpers/strings';
 
 // const { snakeCaseToCamelCase } = strHelpers;
@@ -12,7 +13,7 @@ export default {
       tags: tagsIdsString,
       newTags: newTagsString,
       userId: usuarioRegistroEntrada,
-      subCategoria: subId,
+      subcategoria: subId,
       categoria: catId,
     } = params;
 
@@ -60,6 +61,73 @@ export default {
     return Models.Objetos.findByPk(objetoSimple.id, {
       include: [{ all: true }],
     });
+  },
+  createFile: async (params, file) => {
+    /* const {
+      estado: estadoId,
+      tags: tagsIdsString,
+      newTags: newTagsString,
+      userId: usuarioRegistroEntrada,
+      subcategoria: subId,
+      categoria: catId,
+      fotoPath,
+      fotoNombre,
+    } = params; */
+    console.log(params, file);
+    return { id: file.name };
+
+    /* let url = '';
+    if (fotoNombre && fotoPath) { url = await fileUpload(fotoPath, fotoNombre); }
+
+    const createParams = {
+      ...params,
+      url,
+      usuarioRegistroEntrada,
+    };
+
+    delete createParams.tags;
+    delete createParams.newTags;
+    delete createParams.userId;
+    delete createParams.subCategoria;
+    delete createParams.categoria;
+    delete createParams.fotoPath;
+    delete createParams.fotoNombre; */
+    // delete rawCreateParams.estado;
+
+    // const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+    //   const camelCaseKey = snakeCaseToCamelCase(item);
+    //   acc[camelCaseKey] = rawCreateParams[item];
+    //   return acc;
+    // }, {});
+
+    // const newTagsNames = JSON.parse(newTagsString);
+    // const tagsIds = JSON.parse(tagsIdsString);
+    /* const newTagsNames = newTagsString;
+    const tagsIds = tagsIdsString;
+
+    const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiquetas.create({
+      nombreEtiqueta: item,
+    })));
+    const tags = await Promise.all(tagsIds.map(async item => Models.Etiquetas.findByPk(item)));
+
+    const objetoSimple = await Models.Objetos.create(createParams);
+
+    const subCategoria = await Models.Subcategorias.findByPk(subId);
+    const categoria = await Models.Categorias.findByPk(catId);
+    const estado = await Models.Estados.findByPk(estadoId);
+    const usuario = await Models.Usuarios.findByPk(usuarioRegistroEntrada);
+
+    await objetoSimple.addEtiquetas([...tags, ...newTags]);
+    await objetoSimple.setSubcategoria(subCategoria);
+    await objetoSimple.setCategoria(categoria);
+    await objetoSimple.setEstado(estado);
+    await objetoSimple.setUsuarioEntrada(usuario);
+
+    console.log(objetoSimple);
+
+    return Models.Objetos.findByPk(objetoSimple.id, {
+      include: [{ all: true }],
+    }); */
   },
   get: async (objectId) => {
     const objeto = await Models.Objetos.findByPk(objectId, {

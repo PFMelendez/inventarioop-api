@@ -1,3 +1,6 @@
+import path from 'path';
+import moment from 'moment';
+
 export default async function (filePath, fileName) {
   const bucketName = 'mood-er.appspot.com';
   // eslint-disable-next-line
@@ -5,11 +8,11 @@ export default async function (filePath, fileName) {
 
   const storage = new Storage({
     projectId: 'mood-er',
-    keyFilename: 'RUTA DE LA KEY',
+    keyFilename: path.join(__dirname, 'mood-er-ab4f2353432c.json'),
   });
 
   const stored = await storage.bucket(bucketName).upload(filePath, {
-    destination: `fotos/${fileName}`,
+    destination: `fotos/${fileName}-${moment().unix()}`,
     gzip: false,
     metadata: {
       cacheControl: 'public, max-age=31536000',

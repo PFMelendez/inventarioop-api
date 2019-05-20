@@ -1,5 +1,6 @@
 dist/
 node_modules/
+src/helpers/mood-er-ab4f2353432c.json
 
 src/config/dev.js
 src/config/prod.js

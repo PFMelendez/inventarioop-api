@@ -24,6 +24,23 @@ export default {
     }
   },
 
+  async createFile(req, res) {
+    const params = req.parsedBody;
+
+    try {
+      const objeto = await services.objetos.createFile(params, req.file);
+
+      res
+        .status(201)
+        .json({ objeto });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .json({ error: 'create objetos', err });
+    }
+  },
+
   async get(req, res) {
     const params = req.parsedBody;
     const {

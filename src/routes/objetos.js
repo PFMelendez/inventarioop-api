@@ -1,10 +1,14 @@
 import { Router } from 'express';
+// import multer from 'multer';
 import controllers from '../controllers';
 
+// const upload = multer();
 const { objetos } = controllers;
 const api = Router();
 
 // api.get('/:id', objetos.get);
+
+// api.post('/picture', upload.single('foto'), objetos.createFile);
 
 api.post('/', objetos.create);
 
