@@ -42,12 +42,8 @@ export default {
   },
 
   async get(req, res) {
-    const params = req.parsedBody;
-    const {
-      id_objeto,
-    } = params;
     try {
-      const objeto = await services.objetos.get(id_objeto);
+      const objeto = await services.objetos.get(req.params.id);
 
       res
         .status(201)
@@ -93,7 +89,10 @@ export default {
 
   async postDonate(req, res) {
     try {
-      const objetos = await services.objetos.postDonate(req.parsedBody);
+      await services.objetos.postDonate(req.parsedBody);
+
+      // eslint-disable-next-line
+      const objetos = await Promise.all(req.parsedBody.objetos.map(async item => services.objetos.get(item)));
 
       res.status(202).json({
         objetos,
@@ -109,7 +108,7 @@ export default {
 
   async update(req, res) {
     try {
-      const objetos = await services.objetos.update(req.parsedBody);
+      const objetos = await services.objetos.update(req.params.id, req.parsedBody);
 
       res.status(202).json({
         objetos,

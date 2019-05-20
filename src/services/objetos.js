@@ -244,7 +244,6 @@ export default {
       });
     }
 
-    // if (nombre) {
     return Models.Objetos.findAll({
       where: {
         nombre: { [Op.like]: `%${nombre}%` },
@@ -261,40 +260,6 @@ export default {
       limit: 10,
       offset,
     });
-    // }
-
-
-    // const { Op } = Models.Sequelize;
-    // const nombreLike = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : 1;
-    // const subcategoriaIdEqual = subcategoria ? { subcategoriaId: subcategoria } : 1;
-    // // const etiquetasObj = etiquetas ? JSON.parse(etiquetas) : etiquetas;
-    // const objetos = await Models.Objetos.findAll({
-    //   where: {
-    //     [Op.and]: [nombreLike, subcategoriaIdEqual],
-    //   },
-    //   include: {
-    //     all: true,
-    //   },
-    //   limit: 10,
-    //   offset,
-    // });
-
-    // return objetos;
-    // const objetosEtiquetas = [];
-    // if (etiquetasObj && objetos) {
-    //   objetos.forEach((objeto) => {
-    //     let etiquetaEqual = true;
-    //     objeto.dataValues.Etiquetas.forEach((etiqueta) => {
-    //       if (!etiquetasObj.includes(etiqueta.dataValues.id)) {
-    //         etiquetaEqual = false;
-    //       }
-    //     });
-    //     if (etiquetaEqual) {
-    //       objetosEtiquetas.push(objeto);
-    //     }
-    //   });
-    // }
-    // return objetosEtiquetas ? objetos : objetosEtiquetas;
   },
   getDonate: async (page) => {
     const { Op } = Models.Sequelize;
@@ -331,13 +296,23 @@ export default {
       });
     });
 
-    return Promise.all(objetos.map(async item => Models.Objetos.findByPk(item)));
+
+    return Promise.all(objetos.map(async item => Models.Objetos.findByPk(item, {
+      include: [
+        { association: 'EstadoObjeto' },
+        { association: 'UsuarioEntrada' },
+        { association: 'UsuarioSalida' },
+        { association: 'Etiquetas' },
+        { association: 'Subcategoria' },
+        { association: 'Categoria' },
+      ],
+    })));
   },
 
-  update: async (params) => {
+  update: async (objetoId, params) => {
     const {
       nombre,
-      objetoId,
+      informacionAdicional,
       tags: tagsIdsString,
       newTags: newTagsString,
       subCategoria: subId,
@@ -349,6 +324,9 @@ export default {
     const updateThis = {};
     if (nombre) {
       updateThis.nombre = nombre;
+    }
+    if (informacionAdicional) {
+      updateThis.informacionAdicional = informacionAdicional;
     }
     updateThis.fechaActualizacion = dateNow;
 

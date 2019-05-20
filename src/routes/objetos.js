@@ -6,18 +6,16 @@ import controllers from '../controllers';
 const { objetos } = controllers;
 const api = Router();
 
-// api.get('/:id', objetos.get);
 
 // api.post('/picture', upload.single('foto'), objetos.createFile);
 
-api.post('/', objetos.create);
-
-api.get('/', objetos.find);
-
 api.get('/release', objetos.getDonate);
-
 api.post('/release', objetos.postDonate);
 
+api.get('/:id', objetos.get);
 api.put('/:id', objetos.update);
+
+api.post('/', objetos.create);
+api.get('/', objetos.find);
 
 export default api;
