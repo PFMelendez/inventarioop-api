@@ -1,26 +1,25 @@
 import { isNumber } from 'util';
 import Models from '../models';
-import strHelpers from '../helpers/strings';
+// import strHelpers from '../helpers/strings';
 
-const { snakeCaseToCamelCase } = strHelpers;
 
 export default {
   create: async (params) => {
     const {
-      nombre, apellidos, correo, nombre_usuario, contrasena,
+      nombre, apellidos, correo, nombreUsuario, contrasena,
     } = params;
 
-    if (!nombre || !apellidos || !correo || !nombre_usuario || !contrasena) {
+    if (!nombre || !apellidos || !correo || !nombreUsuario || !contrasena) {
       throw new Error({ status: 400, message: 'Bad Request. Missing Fields' });
     }
 
-    const rawCreateParams = { ...params };
-    const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
-      const camelCaseKey = snakeCaseToCamelCase(item);
-      acc[camelCaseKey] = rawCreateParams[item];
-      return acc;
-    }, {});
-    delete createParams.tipo_usuario;
+    const createParams = { ...params };
+    // const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+    //   const camelCaseKey = snakeCaseToCamelCase(item);
+    //   acc[camelCaseKey] = rawCreateParams[item];
+    //   return acc;
+    // }, {});
+    // delete createParams.tipoUsuario;
 
     return Models.Usuarios.create(createParams);
   },

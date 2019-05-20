@@ -42,10 +42,12 @@ app.use('/docs', swaggerUi.serve, (req, res, next) => {
 });
 
 app.use(bodyParser.json());
+app.use(express.json());
 app.use((req, res, next) => {
   const { body, params: rawParams, query } = req;
   const params = { ...body, ...rawParams, ...query };
   req.parsedBody = params;
+  console.log(params);
   next();
 });
 

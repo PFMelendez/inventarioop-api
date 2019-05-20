@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     usuarioRegistroEntrada: {
-      allowNull: false,
+      allowNull: true,
       type: DataTypes.INTEGER,
       comment: 'Llave foranea  al tipo de usuario que registro el objeto en el sistema',
       field: 'usuario_registro_entrada',
@@ -95,7 +95,7 @@ module.exports = (sequelize, DataTypes) => {
       comment: 'La utilidad de activar o desactivar registro',
     },
   }, {
-    timestamps: false,
+    timestamps: true,
     underscored: true,
     paranoid: true,
     sequelize,
@@ -117,6 +117,7 @@ module.exports = (sequelize, DataTypes) => {
       // foreignKey: 'id_objeto',
     });
     models.Objetos.belongsTo(models.Subcategorias, { as: 'Subcategoria', foreignKey: 'subcategoriaId' });
+    models.Objetos.belongsTo(models.Categorias, { as: 'Categoria', foreignKey: 'categoriaId' });
   };
 
   return Objetos;

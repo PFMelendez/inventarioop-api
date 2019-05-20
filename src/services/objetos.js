@@ -1,8 +1,10 @@
 import moment from 'moment';
+import { isNumber } from 'util';
 import Models from '../models';
-import strHelpers from '../helpers/strings';
+// import fileUpload from '../helpers/fileUpload';
+// import strHelpers from '../helpers/strings';
 
-const { snakeCaseToCamelCase } = strHelpers;
+// const { snakeCaseToCamelCase } = strHelpers;
 
 export default {
   create: async (params) => {
@@ -10,30 +12,32 @@ export default {
       estado: estadoId,
       tags: tagsIdsString,
       newTags: newTagsString,
-      user_id: usuario_registro_entrada,
-      subCategoria: subId,
+      userId: usuarioRegistroEntrada,
+      subcategoria: subId,
+      categoria: catId,
     } = params;
 
-    const rawCreateParams = {
+    const createParams = {
       ...params,
-      usuario_registro_entrada,
+      usuarioRegistroEntrada,
     };
 
-    delete rawCreateParams.tags;
-    delete rawCreateParams.newTags;
-    delete rawCreateParams.user_id;
-    delete rawCreateParams.subCategoria;
+    delete createParams.tags;
+    delete createParams.newTags;
+    delete createParams.userId;
+    delete createParams.subCategoria;
+    delete createParams.categoria;
     // delete rawCreateParams.estado;
 
-    const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
-      const camelCaseKey = snakeCaseToCamelCase(item);
-      acc[camelCaseKey] = rawCreateParams[item];
-      return acc;
-    }, {});
+    // const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+    //   const camelCaseKey = snakeCaseToCamelCase(item);
+    //   acc[camelCaseKey] = rawCreateParams[item];
+    //   return acc;
+    // }, {});
 
     const newTagsNames = JSON.parse(newTagsString);
-
     const tagsIds = JSON.parse(tagsIdsString);
+
     const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiquetas.create({
       nombreEtiqueta: item,
     })));
@@ -42,11 +46,13 @@ export default {
     const objetoSimple = await Models.Objetos.create(createParams);
 
     const subCategoria = await Models.Subcategorias.findByPk(subId);
+    const categoria = await Models.Categorias.findByPk(catId);
     const estado = await Models.Estados.findByPk(estadoId);
-    const usuario = await Models.Usuarios.findByPk(usuario_registro_entrada);
+    const usuario = await Models.Usuarios.findByPk(usuarioRegistroEntrada);
 
     await objetoSimple.addEtiquetas([...tags, ...newTags]);
     await objetoSimple.setSubcategoria(subCategoria);
+    await objetoSimple.setCategoria(categoria);
     await objetoSimple.setEstado(estado);
     await objetoSimple.setUsuarioEntrada(usuario);
 
@@ -55,6 +61,73 @@ export default {
     return Models.Objetos.findByPk(objetoSimple.id, {
       include: [{ all: true }],
     });
+  },
+  createFile: async (params, file) => {
+    /* const {
+      estado: estadoId,
+      tags: tagsIdsString,
+      newTags: newTagsString,
+      userId: usuarioRegistroEntrada,
+      subcategoria: subId,
+      categoria: catId,
+      fotoPath,
+      fotoNombre,
+    } = params; */
+    console.log(params, file);
+    return { id: file.name };
+
+    /* let url = '';
+    if (fotoNombre && fotoPath) { url = await fileUpload(fotoPath, fotoNombre); }
+
+    const createParams = {
+      ...params,
+      url,
+      usuarioRegistroEntrada,
+    };
+
+    delete createParams.tags;
+    delete createParams.newTags;
+    delete createParams.userId;
+    delete createParams.subCategoria;
+    delete createParams.categoria;
+    delete createParams.fotoPath;
+    delete createParams.fotoNombre; */
+    // delete rawCreateParams.estado;
+
+    // const createParams = Object.keys(rawCreateParams).reduce((acc, item) => {
+    //   const camelCaseKey = snakeCaseToCamelCase(item);
+    //   acc[camelCaseKey] = rawCreateParams[item];
+    //   return acc;
+    // }, {});
+
+    // const newTagsNames = JSON.parse(newTagsString);
+    // const tagsIds = JSON.parse(tagsIdsString);
+    /* const newTagsNames = newTagsString;
+    const tagsIds = tagsIdsString;
+
+    const newTags = await Promise.all(newTagsNames.map(async item => Models.Etiquetas.create({
+      nombreEtiqueta: item,
+    })));
+    const tags = await Promise.all(tagsIds.map(async item => Models.Etiquetas.findByPk(item)));
+
+    const objetoSimple = await Models.Objetos.create(createParams);
+
+    const subCategoria = await Models.Subcategorias.findByPk(subId);
+    const categoria = await Models.Categorias.findByPk(catId);
+    const estado = await Models.Estados.findByPk(estadoId);
+    const usuario = await Models.Usuarios.findByPk(usuarioRegistroEntrada);
+
+    await objetoSimple.addEtiquetas([...tags, ...newTags]);
+    await objetoSimple.setSubcategoria(subCategoria);
+    await objetoSimple.setCategoria(categoria);
+    await objetoSimple.setEstado(estado);
+    await objetoSimple.setUsuarioEntrada(usuario);
+
+    console.log(objetoSimple);
+
+    return Models.Objetos.findByPk(objetoSimple.id, {
+      include: [{ all: true }],
+    }); */
   },
   get: async (objectId) => {
     const objeto = await Models.Objetos.findByPk(objectId, {
@@ -67,47 +140,177 @@ export default {
   },
   find: async (params) => {
     const {
+      page,
       subcategoria,
       nombre,
-      etiquetas,
+      categoria,
+      // etiquetas,
     } = params;
+
+    if (!isNumber(parseInt(page, 10))) {
+      throw new Error({ status: 403, message: 'Invalid page Number' });
+    }
+
+    const offset = 10 * parseInt(page, 10);
     const { Op } = Models.Sequelize;
-    const nombreLike = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : 1;
-    const subcategoriaIdEqual = subcategoria ? { subcategoriaId: subcategoria } : 1;
-    const etiquetasObj = etiquetas ? JSON.parse(etiquetas) : etiquetas;
-    const objetos = await Models.Objetos.findAll({
-      where: {
-        [Op.and]: [nombreLike, subcategoriaIdEqual],
-      },
-      include: {
-        model: Models.Etiquetas,
-        as: 'Etiquetas',
-      },
-    });
-    const objetosEtiquetas = [];
-    if (etiquetasObj && objetos) {
-      objetos.forEach((objeto) => {
-        let etiquetaEqual = true;
-        objeto.dataValues.Etiquetas.forEach((etiqueta) => {
-          if (!etiquetasObj.includes(etiqueta.dataValues.id)) {
-            etiquetaEqual = false;
-          }
-        });
-        if (etiquetaEqual) {
-          objetosEtiquetas.push(objeto);
-        }
+
+    if (!subcategoria && !nombre && !categoria) {
+      return Models.Objetos.findAll({
+        where: { fechaEgreso: null },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
       });
     }
-    return objetosEtiquetas ? objetos : objetosEtiquetas;
+
+    if (subcategoria > 0 && nombre) {
+      const subCategoriaInstance = await Models.Subcategorias.findByPk(subcategoria);
+      return subCategoriaInstance.getObjetos({
+        where: {
+          nombre: { [Op.like]: `%${nombre}%` },
+          fechaEgreso: null,
+        },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    if (categoria > 0 && nombre) {
+      const categoriaInstance = await Models.Categorias.findByPk(categoria);
+      return categoriaInstance.getObjetos({
+        where: {
+          nombre: { [Op.like]: `%${nombre}%` },
+          fechaEgreso: null,
+        },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    if (subcategoria > 0) {
+      const subCategoryInstance = await Models.Subcategorias.findByPk(subcategoria);
+      return subCategoryInstance.getObjetos({
+        where: { fechaEgreso: null },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    if (categoria > 0) {
+      const categoryInstance = await Models.Categorias.findByPk(categoria);
+      return categoryInstance.getObjetos({
+        where: { fechaEgreso: null },
+        include: [
+          { association: 'EstadoObjeto' },
+          { association: 'UsuarioEntrada' },
+          { association: 'UsuarioSalida' },
+          { association: 'Etiquetas' },
+          { association: 'Subcategoria' },
+          { association: 'Categoria' },
+        ],
+        limit: 10,
+        offset,
+      });
+    }
+
+    // if (nombre) {
+    return Models.Objetos.findAll({
+      where: {
+        nombre: { [Op.like]: `%${nombre}%` },
+        fechaEgreso: null,
+      },
+      include: [
+        { association: 'EstadoObjeto' },
+        { association: 'UsuarioEntrada' },
+        { association: 'UsuarioSalida' },
+        { association: 'Etiquetas' },
+        { association: 'Subcategoria' },
+        { association: 'Categoria' },
+      ],
+      limit: 10,
+      offset,
+    });
+    // }
+
+
+    // const { Op } = Models.Sequelize;
+    // const nombreLike = nombre ? { nombre: { [Op.like]: `%${nombre}%` } } : 1;
+    // const subcategoriaIdEqual = subcategoria ? { subcategoriaId: subcategoria } : 1;
+    // // const etiquetasObj = etiquetas ? JSON.parse(etiquetas) : etiquetas;
+    // const objetos = await Models.Objetos.findAll({
+    //   where: {
+    //     [Op.and]: [nombreLike, subcategoriaIdEqual],
+    //   },
+    //   include: {
+    //     all: true,
+    //   },
+    //   limit: 10,
+    //   offset,
+    // });
+
+    // return objetos;
+    // const objetosEtiquetas = [];
+    // if (etiquetasObj && objetos) {
+    //   objetos.forEach((objeto) => {
+    //     let etiquetaEqual = true;
+    //     objeto.dataValues.Etiquetas.forEach((etiqueta) => {
+    //       if (!etiquetasObj.includes(etiqueta.dataValues.id)) {
+    //         etiquetaEqual = false;
+    //       }
+    //     });
+    //     if (etiquetaEqual) {
+    //       objetosEtiquetas.push(objeto);
+    //     }
+    //   });
+    // }
+    // return objetosEtiquetas ? objetos : objetosEtiquetas;
   },
-  getDonate: async () => {
+  getDonate: async (page) => {
     const { Op } = Models.Sequelize;
+    if (!isNumber(parseInt(page, 10))) {
+      throw new Error({ status: 403, message: 'Invalid page Number' });
+    }
+    const offset = 10 * parseInt(page, 10);
     const objetos = await Models.Objetos.findAll({
       where: {
         fechaIngreso: {
           [Op.lte]: moment().subtract(6, 'months').toDate(),
         },
+        fechaEgreso: null,
       },
+      limit: 10,
+      offset,
     });
 
     return objetos;
@@ -116,7 +319,7 @@ export default {
   postDonate: async (params) => {
     const {
       objetos,
-      user_id,
+      userId,
     } = params;
 
     const dateNow = moment().toDate();
@@ -124,7 +327,7 @@ export default {
     await objetos.forEach(async (objetoId) => {
       const objeto = await Models.Objetos.findByPk(objetoId);
       await objeto.update({
-        fechaEgreso: dateNow, fechaActualizacion: dateNow, usuarioRegistroSalida: user_id,
+        fechaEgreso: dateNow, fechaActualizacion: dateNow, usuarioRegistroSalida: userId,
       });
     });
 

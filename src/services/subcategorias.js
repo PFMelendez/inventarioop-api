@@ -11,9 +11,12 @@ export default {
     return subcategorias;
   },
   get: async (params) => {
-    const { categoria: categoriaId } = params;
-    if (!categoriaId) {
+    const { categoria: categoriaId, page } = params;
+    const offset = 10 * parseInt(page, 10);
+    if (!categoriaId || categoriaId === '0') {
       return Models.Subcategorias.findAll({
+        offset,
+        limit: 10,
         include: [
           { all: true },
         ],
@@ -22,9 +25,14 @@ export default {
 
     const categoria = await Models.Categorias.findByPk(categoriaId);
 
-    console.log(categoria);
 
-    return categoria.getSubcategorias();
+    return categoria.getSubcategorias({
+      offset,
+      limit: 10,
+      include: [
+        { all: true },
+      ],
+    });
   },
 
   create: async (params) => {

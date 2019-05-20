@@ -1,23 +1,23 @@
 import { Router } from 'express';
+// import multer from 'multer';
 import controllers from '../controllers';
 
+// const upload = multer();
 const { objetos } = controllers;
 const api = Router();
 
 // api.get('/:id', objetos.get);
 
+// api.post('/picture', upload.single('foto'), objetos.createFile);
+
 api.post('/', objetos.create);
 
 api.get('/', objetos.find);
 
-api.put('/', objetos.create);
+api.get('/release', objetos.getDonate);
 
-api.delete('/:id', objetos.hi);
+api.post('/release', objetos.postDonate);
 
-api.get('/donate/', objetos.getDonate);
-
-api.post('/donate/', objetos.postDonate);
-
-api.post('/update/', objetos.update);
+api.put('/:id', objetos.update);
 
 export default api;
